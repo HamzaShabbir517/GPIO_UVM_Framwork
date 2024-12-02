@@ -5,10 +5,12 @@ package gpio_pkg;
 	import uvm_pkg::*;
 	
 	// Include uvm macros
-	`include "uvm_marcos.svh"
+	`include "uvm_macros.svh"
 	
 	// Include Environment and Agent Config Objects
-	`include "environment_config.svh"
-	`include "gpio_agent_config.svh"
 	`include "axi4l_agent_config.svh"
+	`include "gpio_agent_config.svh"
+	`include "environment_config.svh"
+	
+	
 endpackage

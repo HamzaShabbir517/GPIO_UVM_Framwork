@@ -19,7 +19,6 @@ class gpio_env_config extends uvm_object;
 	// GPIO Register Model
 	uvm_register_map gpio_rm;
 	
-	
 	// New Constructor
 	function new (string name = "gpio_env_config");
 		super.new(name);
