@@ -14,6 +14,10 @@ class axi4l_agent_config extends uvm_object;
 	int unsigned addr_width = 32;
 	int unsigned data_width = 32;
 	
+	// Configuration for start address and end address
+	logic [31:0] start_address;
+	logic [31:0] end_address;
+	
 	// Timeout for AXI4 Lite Transactions
 	int unsigned timeout_cycles = 1000;
 	
