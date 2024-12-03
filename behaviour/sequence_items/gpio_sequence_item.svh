@@ -9,7 +9,7 @@ class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 	rand bit is_read; // If 0 so it will write if 1 it will read
 	
 	// Declare response varibales
-	logic [NUM_PINS-1:0] data_out
+	logic [NUM_PINS-1:0] data_out;
 	
 	// New Constructor
 	function new(string name = "gpio_sequence_item");

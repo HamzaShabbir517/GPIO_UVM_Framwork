@@ -5,3 +5,5 @@ rtl/gpio_defs.v
 rtl/gpio.v
 rtl/top.sv
 +incdir+./configurations/
++incdir+./behaviour/sequence_items/
++incdir+./structure/sequencers/

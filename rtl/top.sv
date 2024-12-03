@@ -1,5 +1,5 @@
 // Import UVM Packages
-import uvm_pkg:::*;
+import uvm_pkg::*;
 
 // Import GPIO Packages
 import gpio_pkg::*;
@@ -43,7 +43,7 @@ module top();
 		 );
 		 
 	// Clock Generation
-	forever begin
+	always begin
 		#10;
 		clk = ~clk;
 	end	

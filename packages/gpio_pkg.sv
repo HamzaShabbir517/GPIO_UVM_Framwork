@@ -12,5 +12,9 @@ package gpio_pkg;
 	`include "gpio_agent_config.svh"
 	`include "environment_config.svh"
 	
+	// Structures
+	`include "axi4l_sequencer.svh"
+	`include "gpio_sequencer.svh"
+	
 	
 endpackage
