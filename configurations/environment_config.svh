@@ -5,7 +5,7 @@ class gpio_env_config extends uvm_object;
 	`uvm_object_utils(gpio_env_config)
 	
 	// Decalaration of Variables
-	bit has_scoeboard = 0;
+	bit has_scoreboard = 0;
 	bit has_functional_coverage = 0;
 	
 	// Bit to check which agents are enabled
@@ -17,7 +17,7 @@ class gpio_env_config extends uvm_object;
 	gpio_agent_config  gpio_agent_config_h;
 	
 	// GPIO Register Model
-	uvm_register_map gpio_rm;
+	gpio_ral_model gpio_rm;
 	
 	// New Constructor
 	function new (string name = "gpio_env_config");

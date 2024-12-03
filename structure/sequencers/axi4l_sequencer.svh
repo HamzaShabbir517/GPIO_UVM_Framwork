@@ -5,7 +5,7 @@ class axi4l_sequencer #(int data_width = 32, int addr_width = 32) extends uvm_se
 	`uvm_component_utils(axi4l_sequencer)
 	
 	// New Constructor
-	function new(string name = "axi4l_sequencer", uvm_component parent);
+	function new(string name = "axi4l_sequencer", uvm_component parent = null);
 		super.new(name,parent);
 	endfunction
 	

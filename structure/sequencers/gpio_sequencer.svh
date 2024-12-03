@@ -5,7 +5,7 @@ class gpio_sequencer #(int NUM_PINS = 8) extends uvm_sequencer #(gpio_sequence_i
 	`uvm_component_utils(gpio_sequencer)
 	
 	// New Constructor
-	function new(string name = "gpio_sequencer", uvm_component parent);
+	function new(string name = "gpio_sequencer", uvm_component parent = null);
 		super.new(name,parent);
 	endfunction
 	
