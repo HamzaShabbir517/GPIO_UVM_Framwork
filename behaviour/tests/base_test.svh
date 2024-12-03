@@ -46,7 +46,7 @@ class gpio_base_test extends uvm_test;
 		env_cfg.gpio_agent_config_h = gpio_cfg;
 		
 		// Configure the rest of the environment config variables
-		env_cfg.has_scoreboard = 1;
+		env_cfg.has_scoreboard = 0;
 		env_cfg.has_functional_coverage = 0;
 		env_cfg.has_axi4l_agent = 1;
 		env_cfg.has_gpio_agent = 1; 

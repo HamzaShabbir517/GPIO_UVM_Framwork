@@ -16,5 +16,8 @@ package gpio_pkg;
 	`include "axi4l_sequencer.svh"
 	`include "gpio_sequencer.svh"
 	
+	// Tests
+	`include "base_test.svh"
+	
 	
 endpackage
