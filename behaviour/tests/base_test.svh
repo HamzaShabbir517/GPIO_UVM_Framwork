@@ -58,9 +58,6 @@ class gpio_base_test extends uvm_test;
 	
 	// AXI4 Lite Configuration Function
 	virtual function void configure_axi4l(axi4l_agent_config cfg);
-		// Get the virtual interface from config db
-		if(!uvm_config_db #(virtual axi4l_interface #(cfg.addr_width,cfg.data_width))::get(this,"*","axi4l_vif",cfg.axi4l_if))
-		`uvm_fatal("Base Test",$sformatf("AXI4 Lite Virtual Interface Not Found"));
 		// Agent is active
 		cfg.active = UVM_ACTIVE;
 		// Addr and Data widths
@@ -69,16 +66,19 @@ class gpio_base_test extends uvm_test;
 		// Start & End Address
 		cfg.start_address = 0x2000000;
 		cfg.end_address = 0x2fffffff;
+		// Get the virtual interface from config db
+		if(!uvm_config_db #(virtual axi4l_interface #(cfg.addr_width,cfg.data_width))::get(this,"*","axi4l_vif",cfg.axi4l_if))
+		`uvm_fatal("Base Test",$sformatf("AXI4 Lite Virtual Interface Not Found"));
 	endfunction
 	
 	// GPIO Configuration Function
 	virtual function void configure_gpio(gpio_agent_config cfg);
-		// Get the virtual interface from config db
-		if(!uvm_config_db #(virtual gpio_interface #(cfg.num_pins))::get(this,"*","gpio_vif",cfg.gpio_if))
-		`uvm_fatal("Base Test",$sformatf("GPIO Virtual Interface Not Found"));
 		// Agent is active
 		cfg.active = UVM_ACTIVE;
 		// Number of GPIO Pins
 		cfg.num_pins = 32;
+		// Get the virtual interface from config db
+		if(!uvm_config_db #(virtual gpio_interface #(cfg.num_pins))::get(this,"*","gpio_vif",cfg.gpio_if))
+		`uvm_fatal("Base Test",$sformatf("GPIO Virtual Interface Not Found"));
 	endfunction
 endclass 

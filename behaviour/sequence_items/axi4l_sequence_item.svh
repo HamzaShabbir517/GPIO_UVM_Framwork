@@ -2,7 +2,7 @@
 class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uvm_sequence_item;
 
 	// Register it with factory
-	`uvm_object_param_utils(axi4l_sequence_item#(data_width,addr_width))
+	`uvm_object_param_utils(axi4l_sequence_item #(data_width,addr_width))
 	
 	// Request Variables
 	rand logic [addr_width-1:0] addr;

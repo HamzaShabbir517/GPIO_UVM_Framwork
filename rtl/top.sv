@@ -6,12 +6,17 @@ import gpio_pkg::*;
 
 module top();
 
+	// Parameters
+	parameter data_width = 32;
+	parameter addr_width = 32;
+	parameter num_pins = 32;
+
 	// Declaration of clock signal
 	bit clk = 0;
 	
 	// Declaration of interfaces
-	axi4l_interface #(32,32) axi4l_if (clk);
-	gpio_interface #(32) gpio_if ();
+	axi4l_interface #(addr_width,data_width) axi4l_if (clk);
+	gpio_interface #(num_pins) gpio_if ();
 	
 	// Declaration of Design Under Test
 	gpio dut (
@@ -52,10 +57,10 @@ module top();
 	initial begin
 		
 		// Set the AXI4 Lite Virtual interface into Config DB
-		uvm_config_db #(virtual axi4l_interface #(32,32))::set(null,"this", "axi4l_vif", axi4l_if);
+		uvm_config_db #(virtual axi4l_interface #(addr_width,data_width))::set(null,"this", "axi4l_vif", axi4l_if);
 		
 		// Set the GPIO interface into Config DB
-		uvm_config_db #(virtual gpio_interface #(32))::set(null,"this","gpio_vif",gpio_if);
+		uvm_config_db #(virtual gpio_interface #(num_pins))::set(null,"this","gpio_vif",gpio_if);
 		
 		// Run the UVM Test
 		run_test();  
