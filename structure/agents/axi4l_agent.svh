@@ -10,10 +10,11 @@ class axi4l_agent extends uvm_agent;
 	// Declaration of Sequencer, Driver and Monitor
 	axi4l_sequencer #(32,32) axi4l_sqr_h;
 	axi4l_driver #(32,32) axi4l_drv_h;
-	axi4l_monitor axi4l_mon_h;
+	axi4l_monitor #(32,32) axi4l_mon_h;
 	
 	// Declare Analysis Port
-	uvm_analysis_port #(axi4l_sequence_item) axi4l_ap;
+	uvm_analysis_port #(axi4l_sequence_item) axi4l_ap_w;
+	uvm_analysis_port #(axi4l_sequence_item) axi4l_ap_r;
 	
 	// New Constructor
 	function new(string name = "axi4l_agent", uvm_component parent = null);
@@ -37,7 +38,8 @@ class axi4l_agent extends uvm_agent;
 		// Build the monitor and analysis port
 		axi4l_mon_h = axi4l_monitor::type_id::create("axi4l_mon_h",this);
 		// Build the analysis port dynamically
-		axi4l_ap = new("axi4l_ap", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
+		axi4l_ap_w = new("axi4l_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
+		axi4l_ap_r = new("axi4l_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
 		
 	endfunction
 	
@@ -46,7 +48,8 @@ class axi4l_agent extends uvm_agent;
 		super.connect_phase(phase);
 		
 		// Connect Monitor Analysis port with Agent Analysis port
-		axi4l_mon_h.axi4l_m_ap.connect(axi4l_ap);
+		axi4l_mon_h.axi4l_m_ap_w.connect(axi4l_ap_w);
+		axi4l_mon_h.axi4l_m_ap_r.connect(axi4l_ap_r);
 		// Pass the Virtual Interface to monitor
 		axi4l_mon_h.vif = axi4l_cfg.axi4l_if;
 		

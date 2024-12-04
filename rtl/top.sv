@@ -12,17 +12,18 @@ module top();
 	parameter num_pins = 32;
 
 	// Declaration of clock signal
-	bit clk = 0;
+	bit clk;
+	bit rst;
 	
 	// Declaration of interfaces
-	axi4l_interface #(addr_width,data_width) axi4l_if (clk);
-	gpio_interface #(num_pins) gpio_if ();
+	axi4l_interface #(addr_width,data_width) axi4l_if (clk, rst);
+	gpio_interface #(num_pins) gpio_if (clk, rst);
 	
 	// Declaration of Design Under Test
 	gpio dut (
 			.clk_i(clk),
 			// AXI4 Lite Interface Connection
-			.rst_i(axi4l_if.rst),
+			.rst_i(rst),
 			.cfg_awaddr_i(axi4l_if.AWADDR),
 			.cfg_awvalid_i(axi4l_if.AWVALID),
 			.cfg_awready_o(axi4l_if.AWREADY),
@@ -46,12 +47,19 @@ module top();
 			.gpio_output_enable_o(gpio_if.gpio_oe),
 			.intr_o(gpio_if.intr)
 		 );
-		 
-	// Clock Generation
-	always begin
-		#10;
-		clk = ~clk;
-	end	
+	
+	// Reset and Clock Generation 
+	initial begin
+		clk = 0;
+		rst = 0;
+		repeat (8) begin
+			#10ns clk = ~clk;
+		end
+		rst = 1;
+		forever begin
+			#10ns clk = ~clk;
+		end
+	end
 	
 	// Initial Block
 	initial begin

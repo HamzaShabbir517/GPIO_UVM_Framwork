@@ -10,7 +10,7 @@ class gpio_agent extends uvm_agent;
 	// Declaration of Sequencer, Driver and Monitor
 	gpio_sequencer #(32) gpio_sqr_h;
 	gpio_driver #(32) gpio_drv_h;
-	gpio_monitor gpio_mon_h;
+	gpio_monitor #(32) gpio_mon_h;
 	
 	// Declare Analysis Port
 	uvm_analysis_port #(gpio_sequence_item) gpio_ap;
@@ -35,7 +35,7 @@ class gpio_agent extends uvm_agent;
 		end
 		
 		// Build the monitor and analysis port
-		gpio_mon_h = gpio_monitor::type_id::create("gpio_mon_h",this);
+		gpio_mon_h = gpio_monitor #(gpio_cfg.num_pins)::type_id::create("gpio_mon_h",this);
 		// Build the analysis port dynamically
 		gpio_ap = new("gpio_ap", this, gpio_sequence_item #(gpio_cfg.num_pins)::get_type());
 		

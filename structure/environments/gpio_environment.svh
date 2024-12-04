@@ -32,7 +32,7 @@ class gpio_environment extends uvm_env;
 			// Create the agent
 			axi4l_agent_h = axi4l_agent::type_id::create("axi4l_agent_h",this);
 			// Set the agent configuration into database 
-			uvm_config_db #(axi4l_agent_config)::set(this,"*","axi4l_agent_config",env_cfg_h.axi4l_agent_config_h)
+			uvm_config_db #(axi4l_agent_config)::set(this,"*","axi4l_agent_config",env_cfg_h.axi4l_agent_config_h);
 		end
 		
 		// If GPIO Agent is enabled
@@ -40,7 +40,7 @@ class gpio_environment extends uvm_env;
 			// Create the agent
 			gpio_agent_h = gpio_agent::type_id::create("gpio_agent_h",this);
 			// Set the agent configuration into database 
-			uvm_config_db #(gpio_agent_config)::set(this,"*","gpio_agent_config",env_cfg_h.gpio_agent_config_h)
+			uvm_config_db #(gpio_agent_config)::set(this,"*","gpio_agent_config",env_cfg_h.gpio_agent_config_h);
 		end
 	endfunction
 	

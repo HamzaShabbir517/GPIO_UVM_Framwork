@@ -1,9 +1,7 @@
 // AXI4 Lite Interface Class
-interface axi4l_interface #(int addr_width, int data_width) (input bit clk);
+interface axi4l_interface #(int addr_width, int data_width) (input bit clk, input bit rst);
 
 	// Port list
-	logic rst;
-	
 	// Write Address Channel
 	logic [addr_width-1:0] AWADDR;
     	logic AWVALID;

@@ -12,10 +12,21 @@ package gpio_pkg;
 	`include "gpio_agent_config.svh"
 	`include "environment_config.svh"
 	
+	// Include Sequence Item
+	`include "axi4l_sequence_item.svh"
+	`include "gpio_sequence_item.svh"
+	
 	// Structures
+	// Sequencers
 	`include "axi4l_sequencer.svh"
 	`include "gpio_sequencer.svh"
-	
+	// Drivers
+	`include "axi4l_driver.svh"
+	`include "gpio_driver.svh"
+	// Monitors
+	`include "axi4l_monitor.svh"
+	`include "gpio_monitor.svh"
+	// Agents
 	`include "axi4l_agent.svh"
 	`include "gpio_agent.svh"
 	
