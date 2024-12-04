@@ -27,7 +27,7 @@ class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 		gpio_sequence_item #(NUM_PINS) RHS;
 		
 		// Check the compatibility by casting
-		if (!$cast(RHHS, rhs)) begin
+		if (!$cast(RHS, rhs)) begin
 			uvm_report_error("do_copy", "Cast failed, check type compatibility");
 			return;
 		end
@@ -45,7 +45,7 @@ class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 		gpio_sequence_item #(NUM_PINS) RHS;
 		
 		// Check the compatibility by casting
-		if (!$cast(RHHS, rhs)) begin
+		if (!$cast(RHS, rhs)) begin
 			uvm_report_error("do_copy", "Cast failed, check type compatibility");
 			return 0;
 		end

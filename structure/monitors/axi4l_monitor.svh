@@ -1,5 +1,5 @@
 // Declaration of AXI4 Lite Monitor 
-class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_monitor #(axi4l_sequence_item #(data_width,addr_width));
+class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_monitor;
 
 	// Register it with factory
 	`uvm_component_param_utils(axi4l_monitor #(data_width,addr_width))

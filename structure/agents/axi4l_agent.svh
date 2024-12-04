@@ -36,7 +36,7 @@ class axi4l_agent extends uvm_agent;
 		end
 		
 		// Build the monitor and analysis port
-		axi4l_mon_h = axi4l_monitor::type_id::create("axi4l_mon_h",this);
+		axi4l_mon_h = axi4l_monitor #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::type_id::create("axi4l_mon_h",this);
 		// Build the analysis port dynamically
 		axi4l_ap_w = new("axi4l_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
 		axi4l_ap_r = new("axi4l_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());

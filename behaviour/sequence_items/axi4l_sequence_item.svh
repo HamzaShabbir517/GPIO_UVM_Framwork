@@ -37,7 +37,7 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 		axi4l_sequence_item #(data_width,addr_width) RHS;
 		
 		// Check the compatibility by casting
-		if (!$cast(RHHS, rhs)) begin
+		if (!$cast(RHS, rhs)) begin
 			uvm_report_error("do_copy", "Cast failed, check type compatibility");
 			return;
 		end
@@ -59,7 +59,7 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 		axi4l_sequence_item #(data_width,addr_width) RHS;
 		
 		// Check the compatibility by casting
-		if (!$cast(RHHS, rhs)) begin
+		if (!$cast(RHS, rhs)) begin
 			uvm_report_error("do_copy", "Cast failed, check type compatibility");
 			return 0;
 		end
