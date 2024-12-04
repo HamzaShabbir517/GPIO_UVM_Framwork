@@ -52,10 +52,10 @@ module top();
 	initial begin
 		
 		// Set the AXI4 Lite Virtual interface into Config DB
-		uvm_config_db #(virtual axi4l_interface)::set(null,"this", "axi4l_vif", axi4l_if);
+		uvm_config_db #(virtual axi4l_interface #(32,32))::set(null,"this", "axi4l_vif", axi4l_if);
 		
 		// Set the GPIO interface into Config DB
-		uvm_config_db #(virtual gpio_interface)::set(null,"this","gpio_vif",gpio_if);
+		uvm_config_db #(virtual gpio_interface #(32))::set(null,"this","gpio_vif",gpio_if);
 		
 		// Run the UVM Test
 		run_test();  

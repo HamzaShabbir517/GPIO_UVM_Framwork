@@ -2,7 +2,7 @@
 class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 		
 	// Register it with factory
-	`uvm_object_param_utils(gpio_sequence_item)
+	`uvm_object_param_utils(gpio_sequence_item#(NUM_PINS))
 	
 	// Declare request Variables
 	rand logic [NUM_PINS-1:0] data_in;

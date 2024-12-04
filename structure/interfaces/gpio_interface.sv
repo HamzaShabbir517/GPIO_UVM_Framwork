@@ -1,10 +1,10 @@
 // GPIO Interface Class
-interface gpio_interface #(int GPIO_PINS) ();
+interface gpio_interface #(int NUM_PINS) ();
 
 	// Port List
-	logic [GPIO_PINS-1:0] gpio_in;
-	logic [GPIO_PINS-1:0] gpio_out; 
-	logic [GPIO_PINS-1:0] gpio_oe;
+	logic [NUM_PINS-1:0] gpio_in;
+	logic [NUM_PINS-1:0] gpio_out; 
+	logic [NUM_PINS-1:0] gpio_oe;
 	logic intr;
 	
 endinterface

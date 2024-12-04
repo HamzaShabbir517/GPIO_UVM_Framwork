@@ -16,6 +16,12 @@ package gpio_pkg;
 	`include "axi4l_sequencer.svh"
 	`include "gpio_sequencer.svh"
 	
+	`include "axi4l_agent.svh"
+	`include "gpio_agent.svh"
+	
+	// Environment
+	`include "gpio_environment.svh"
+	
 	// Tests
 	`include "base_test.svh"
 	
