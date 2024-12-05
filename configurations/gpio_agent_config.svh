@@ -1,3 +1,6 @@
+// Include Defines
+`include "gpio_defines.svh"
+
 // Declaration of GPIO Agent Configuration Object
 class gpio_agent_config extends uvm_object;
 	
@@ -7,11 +10,8 @@ class gpio_agent_config extends uvm_object;
 	// Declaration of Variable
 	uvm_active_passive_enum active = UVM_ACTIVE;
 	
-	// Number of GPIO Pins
-	int num_pins = 8;
-	
 	// Declaration of interface
-	virtual gpio_interface #(num_pins) gpio_if;
+	virtual gpio_interface #(`NUM_PINS) gpio_if;
 	
 	// New Cosntructor
 	function new (string name = "gpio_agent_config");

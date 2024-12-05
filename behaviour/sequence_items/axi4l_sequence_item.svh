@@ -1,22 +1,25 @@
+// Include Defines
+`include "axi4l_defines.svh"
+
 // Declaration of AXI4 Lite Sequence Item
 class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uvm_sequence_item;
 
 	// Register it with factory
-	`uvm_object_param_utils(axi4l_sequence_item #(data_width,addr_width))
+	`uvm_object_param_utils(axi4l_sequence_item #(`data_width,`addr_width))
 	
 	// Request Variables
-	rand logic [addr_width-1:0] addr;
+	rand logic [`addr_width-1:0] addr;
 	rand bit write;
-	rand logic [data_width-1:0] wdata;
-	rand logic [(data_width/8)-1:0] wstrb;
+	rand logic [`data_width-1:0] wdata;
+	rand logic [(`data_width/8)-1:0] wstrb;
 	
 	// Response Vaiables
-	logic [data_width-1:0] rdata;
+	logic [`data_width-1:0] rdata;
 	logic [1:0] resp;
 	
 	// Constraints
 	// Address is aligned to word
-	constraint addr_aligned { addr % (data_width/8) == 0; }
+	constraint addr_aligned { addr % (`data_width/8) == 0; }
 	
 	// Wstrb is not zero when write is enable
 	constraint wstrb_non_zero { if (write) wstrb != 0;}
@@ -34,7 +37,7 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 	// Do Copy function
 	function void do_copy(uvm_object rhs);
 		// Handle of sequence item
-		axi4l_sequence_item #(data_width,addr_width) RHS;
+		axi4l_sequence_item #(`data_width,`addr_width) RHS;
 		
 		// Check the compatibility by casting
 		if (!$cast(RHS, rhs)) begin
@@ -56,7 +59,7 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 	// Do compare function
 	function bit do_compare(uvm_object rhs, uvm_comparer comparer);
 		// Handle of sequence item
-		axi4l_sequence_item #(data_width,addr_width) RHS;
+		axi4l_sequence_item #(`data_width,`addr_width) RHS;
 		
 		// Check the compatibility by casting
 		if (!$cast(RHS, rhs)) begin

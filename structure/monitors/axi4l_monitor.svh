@@ -1,18 +1,21 @@
+// Include Defines
+`include "axi4l_defines.svh"
+
 // Declaration of AXI4 Lite Monitor 
 class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_monitor;
 
 	// Register it with factory
-	`uvm_component_param_utils(axi4l_monitor #(data_width,addr_width))
+	`uvm_component_param_utils(axi4l_monitor #(`data_width,`addr_width))
 	
 	// AXI4 Lite Agent Config
 	axi4l_agent_config axi4l_cfg;
 	
 	// Declaration of Virtual Interface
-	virtual interface axi4l_interface #(addr_width,data_width) vif;
+	virtual interface axi4l_interface #(`addr_width,`data_width) vif;
 	
 	// Declaration of Analysis ports
-	uvm_analysis_port #(axi4l_sequence_item) axi4l_m_ap_w; // Write port
-	uvm_analysis_port #(axi4l_sequence_item) axi4l_m_ap_r; // Read port
+	uvm_analysis_port #(axi4l_sequence_item #(`addr_width,`data_width)) axi4l_m_ap_w; // Write port
+	uvm_analysis_port #(axi4l_sequence_item #(`addr_width,`data_width)) axi4l_m_ap_r; // Read port
 	
 	// New Constructor
 	function new(string name = "axi4l_monitor", uvm_component parent = null);
@@ -28,11 +31,11 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
 		if(!uvm_config_db #(axi4l_agent_config)::get(this,"*","axi4l_agent_config",axi4l_cfg))
 		`uvm_fatal("AXI4 Lite Monitor Build_phase", "unable to get axi4l_agent_config");
 		
-		// Build the analysis port dynamically
+		// Build the analysis port
 		// Write port
-		axi4l_m_ap_w = new("axi4l_m_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
+		axi4l_m_ap_w = new("axi4l_m_ap_w", this);
 		// Read port
-		axi4l_m_ap_r = new("axi4l_m_ap_r", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
+		axi4l_m_ap_r = new("axi4l_m_ap_r", this);
 		
 	endfunction
 	
@@ -50,8 +53,8 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
     	
 	// Monitor Write Channel
 	task monitor_write_channel();
-		axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width) axi4l_item;
-		axi4l_item = axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::type_id::create("axi4l_item", this);
+		axi4l_sequence_item #(`data_width, `addr_width) axi4l_item;
+		axi4l_item = axi4l_sequence_item #(`data_width, `addr_width)::type_id::create("axi4l_item", this);
 
 		// Wait for posedge clk
 		@(posedge vif.clk);
@@ -80,8 +83,8 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
 	
 	// Monitor Read Channel
 	task monitor_read_channel();
-		axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width) axi4l_item;
-		axi4l_item = axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::type_id::create("axi4l_item", this);
+		axi4l_sequence_item #(`data_width, `addr_width) axi4l_item;
+		axi4l_item = axi4l_sequence_item #(`data_width, `addr_width)::type_id::create("axi4l_item", this);
 
 		// Wait for posedge clk
 		@(posedge vif.clk);

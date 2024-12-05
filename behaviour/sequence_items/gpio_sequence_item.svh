@@ -1,15 +1,18 @@
+// Include Define
+`include "gpio_defines.svh"
+
 // Declaration of GPIO Sequence Item
 class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 		
 	// Register it with factory
-	`uvm_object_param_utils(gpio_sequence_item #(NUM_PINS))
+	`uvm_object_param_utils(gpio_sequence_item #(`NUM_PINS))
 	
 	// Declare request Variables
-	rand logic [NUM_PINS-1:0] data_in;
+	rand logic [`NUM_PINS-1:0] data_in;
 	rand bit is_read; // If 0 so it will write if 1 it will read
 	
 	// Declare response varibales
-	logic [NUM_PINS-1:0] data_out;
+	logic [`NUM_PINS-1:0] data_out;
 	
 	// New Constructor
 	function new(string name = "gpio_sequence_item");
@@ -24,7 +27,7 @@ class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 	// Do copy function
 	function void do_copy(uvm_object rhs);
 		// Handle of sequence item
-		gpio_sequence_item #(NUM_PINS) RHS;
+		gpio_sequence_item #(`NUM_PINS) RHS;
 		
 		// Check the compatibility by casting
 		if (!$cast(RHS, rhs)) begin
@@ -42,7 +45,7 @@ class gpio_sequence_item #(int NUM_PINS = 8) extends uvm_sequence_item;
 	// Do compare function
 	function bit do_compare(uvm_object rhs, uvm_comparer comparer);
 		// Handle of sequence item
-		gpio_sequence_item #(NUM_PINS) RHS;
+		gpio_sequence_item #(`NUM_PINS) RHS;
 		
 		// Check the compatibility by casting
 		if (!$cast(RHS, rhs)) begin

@@ -7,7 +7,7 @@ VERILATOR := /tools/verilator_v5.030/bin/verilator
 
 UVM_ROOT := /home/hshabbir/uvm_learning/uvm-verilator
 
-SIM_DIR := learn-sim
+SIM_DIR := learn_sim
 TOP_NAME := uvm
 BIN_NAME := uvm_test
 UVM_TEST := gpio_test

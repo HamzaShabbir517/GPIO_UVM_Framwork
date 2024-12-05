@@ -1,3 +1,6 @@
+// Include Defines
+`include "gpio_defines.svh"
+
 // Declare GPIO Agent
 class gpio_agent extends uvm_agent;
 	
@@ -8,12 +11,13 @@ class gpio_agent extends uvm_agent;
 	gpio_agent_config gpio_cfg;
 	
 	// Declaration of Sequencer, Driver and Monitor
-	gpio_sequencer #(32) gpio_sqr_h;
-	gpio_driver #(32) gpio_drv_h;
-	gpio_monitor #(32) gpio_mon_h;
+	// gpio_sequencer #(`NUM_PINS) gpio_sqr_h;
+	uvm_sequencer #(gpio_sequence_item #(`NUM_PINS),gpio_sequence_item #(`NUM_PINS)) gpio_sqr_h;
+	gpio_driver #(`NUM_PINS) gpio_drv_h;
+	gpio_monitor #(`NUM_PINS) gpio_mon_h;
 	
 	// Declare Analysis Port
-	uvm_analysis_port #(gpio_sequence_item) gpio_ap;
+	uvm_analysis_port #(gpio_sequence_item #(`NUM_PINS)) gpio_ap;
 	
 	// New Constructor
 	function new(string name = "gpio_agent", uvm_component parent = null);
@@ -30,14 +34,15 @@ class gpio_agent extends uvm_agent;
 		
 		// Check if Agent is active so build the driver and sequencer
 		if(gpio_cfg.active == UVM_ACTIVE) begin
-			gpio_sqr_h = gpio_sequencer #(gpio_cfg.num_pins)::type_id::create("gpio_sqr_h",this);
-			gpio_drv_h = gpio_driver #(gpio_cfg.num_pins)::type_id::create("gpio_drv_h",this);
+			//gpio_sqr_h = gpio_sequencer #(`NUM_PINS)::type_id::create("gpio_sqr_h",this);
+			gpio_sqr_h = new("gpio_sqr_h",this);
+			gpio_drv_h = gpio_driver #(`NUM_PINS)::type_id::create("gpio_drv_h",this);
 		end
 		
 		// Build the monitor and analysis port
-		gpio_mon_h = gpio_monitor #(gpio_cfg.num_pins)::type_id::create("gpio_mon_h",this);
-		// Build the analysis port dynamically
-		gpio_ap = new("gpio_ap", this, gpio_sequence_item #(gpio_cfg.num_pins)::get_type());
+		gpio_mon_h = gpio_monitor #(`NUM_PINS)::type_id::create("gpio_mon_h",this);
+		// Build the analysis port
+		gpio_ap = new("gpio_ap", this);
 		
 	endfunction
 	

@@ -1,6 +1,10 @@
 // Include Macros
 `include "uvm_macros.svh"
 
+// Include defines
+`include "axi4l_defines.svh"
+`include "gpio_defines.svh"
+
 // Declaration of base test classs
 class gpio_base_test extends uvm_test;
 
@@ -60,15 +64,12 @@ class gpio_base_test extends uvm_test;
 	virtual function void configure_axi4l(axi4l_agent_config cfg);
 		// Agent is active
 		cfg.active = UVM_ACTIVE;
-		// Addr and Data widths
-		cfg.addr_width = 32;
-		cfg.data_width = 32;
 		// Start & End Address
 		cfg.start_address = 32'h2000000;
 		cfg.end_address = 32'h2fffffff;
 		cfg.timeout_cycles = 100;
 		// Get the virtual interface from config db
-		if(!uvm_config_db #(virtual axi4l_interface #(cfg.addr_width,cfg.data_width))::get(this,"*","axi4l_vif",cfg.axi4l_if))
+		if(!uvm_config_db #(virtual axi4l_interface #(`addr_width,`data_width))::get(this,"*","axi4l_vif",cfg.axi4l_if))
 		`uvm_fatal("Base Test",$sformatf("AXI4 Lite Virtual Interface Not Found"));
 	endfunction
 	
@@ -76,10 +77,8 @@ class gpio_base_test extends uvm_test;
 	virtual function void configure_gpio(gpio_agent_config cfg);
 		// Agent is active
 		cfg.active = UVM_ACTIVE;
-		// Number of GPIO Pins
-		cfg.num_pins = 32;
 		// Get the virtual interface from config db
-		if(!uvm_config_db #(virtual gpio_interface #(cfg.num_pins))::get(this,"*","gpio_vif",cfg.gpio_if))
+		if(!uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::get(this,"*","gpio_vif",cfg.gpio_if))
 		`uvm_fatal("Base Test",$sformatf("GPIO Virtual Interface Not Found"));
 	endfunction
 endclass 

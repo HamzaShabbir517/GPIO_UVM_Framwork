@@ -1,14 +1,17 @@
+// Include defines
+`include "axi4l_defines.svh"
+
 // Declaration of AXI4 Lite Driver
-class axi4l_driver #(int data_width = 32, int addr_width = 32) extends uvm_driver #(axi4l_sequence_item #(data_width,addr_width));
+class axi4l_driver #(int data_width = 32, int addr_width = 32) extends uvm_driver #(axi4l_sequence_item #(`data_width,`addr_width));
 
 	// Register it with factory
-	`uvm_component_param_utils(axi4l_driver #(data_width,addr_width))
+	`uvm_component_param_utils(axi4l_driver #(`data_width,`addr_width))
 	
 	// AXI4 Lite Agent Config
 	axi4l_agent_config axi4l_cfg;
 	
 	// Declaration of Virtual Interface
-	virtual interface axi4l_interface #(addr_width,data_width) vif;
+	virtual interface axi4l_interface #(`addr_width,`data_width) vif;
 	
 	// New Constructor
 	function new(string name = "axi4l_driver", uvm_component parent = null);
@@ -27,10 +30,10 @@ class axi4l_driver #(int data_width = 32, int addr_width = 32) extends uvm_drive
 	// Run Task
 	task run_phase(uvm_phase phase);
 		// Declaration of Sequence item
-		axi4l_sequence_item #(axi4l_cfg.data_width,axi4l_cfg.addr_width) axi4l_seq;
+		axi4l_sequence_item #(`data_width,`addr_width) axi4l_seq;
 		@(negedge vif.rst);
 		forever begin
-			axi4l_seq = axi4l_sequence_item #(axi4l_cfg.data_width,axi4l_cfg.addr_width)::type_id::create("axi4l_seq",this);
+			axi4l_seq = axi4l_sequence_item #(`data_width,`addr_width)::type_id::create("axi4l_seq",this);
 			// Get the next item
 			seq_item_port.get_next_item(axi4l_seq);
 			// Print the data
@@ -42,7 +45,7 @@ class axi4l_driver #(int data_width = 32, int addr_width = 32) extends uvm_drive
 		end 
 	endtask
 	
-	task drive(axi4l_sequence_item #(axi4l_cfg.data_width,axi4l_cfg.addr_width) axi4l_item);
+	task drive(axi4l_sequence_item #(`data_width,`addr_width) axi4l_item);
 		// Timeout counter
 		int unsigned cycle_count;
 		

@@ -1,17 +1,17 @@
+// Include defines
+`include "gpio_defines.svh"
+
 // Declaration of GPIO Monitor 
 class gpio_monitor #(int NUM_PINS = 8) extends uvm_monitor;
 
 	// Register it with factory
-	`uvm_component_param_utils(gpio_monitor #(NUM_PINS))
-	
-	// GPIO Agent Config Object
-	gpio_agent_config gpio_cfg;
+	`uvm_component_param_utils(gpio_monitor #(`NUM_PINS))
 	
 	// Declaration of Virtual Interface
-	virtual interface gpio_interface #(NUM_PINS) vif;
+	virtual interface gpio_interface #(`NUM_PINS) vif;
 	
 	// Declaration of Analysis port
-	uvm_analysis_port #(gpio_sequence_item) gpio_m_ap;
+	uvm_analysis_port #(gpio_sequence_item #(`NUM_PINS)) gpio_m_ap;
 	
 	// New Constructor
 	function new(string name = "gpio_monitor", uvm_component parent = null);
@@ -22,20 +22,16 @@ class gpio_monitor #(int NUM_PINS = 8) extends uvm_monitor;
 	function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		
-		// Get the gpio agent config from database
-		if(!uvm_config_db #(gpio_agent_config)::get(this,"*","gpio_agent_config",gpio_cfg))
-		`uvm_fatal("GPIO Monitor Build_phase", "unable to get gpio_agent_config");
-		
-		// Build the analysis port dynamically
-		gpio_m_ap = new("gpio_m_ap", this, gpio_sequence_item #(gpio_cfg.num_pins)::get_type());
+		// Build the analysis port
+		gpio_m_ap = new("gpio_m_ap", this);
 		
 	endfunction
 	
 	// Run task
 	task run_phase(uvm_phase phase);
 		// Declaration of Sequence item
-		gpio_sequence_item #(gpio_cfg.num_pins) gpio_seq, gpio_seq_clone;
-		gpio_seq = gpio_sequence_item #(gpio_cfg.num_pins)::type_id::create("gpio_seq",this);
+		gpio_sequence_item #(`NUM_PINS) gpio_seq, gpio_seq_clone;
+		gpio_seq = gpio_sequence_item #(`NUM_PINS)::type_id::create("gpio_seq",this);
 		@(negedge vif.rst);
 		forever begin
 			// Create a copy of the transaction object using clone()

@@ -1,3 +1,6 @@
+// Include Defines
+`include "axi4l_defines.svh"
+
 // Declare AXI4 Lite Agent
 class axi4l_agent extends uvm_agent;
 	
@@ -8,13 +11,14 @@ class axi4l_agent extends uvm_agent;
 	axi4l_agent_config axi4l_cfg;
 	
 	// Declaration of Sequencer, Driver and Monitor
-	axi4l_sequencer #(32,32) axi4l_sqr_h;
-	axi4l_driver #(32,32) axi4l_drv_h;
-	axi4l_monitor #(32,32) axi4l_mon_h;
+	//axi4l_sequencer #(`data_width,`addr_width) axi4l_sqr_h;
+	uvm_sequencer #(axi4l_sequence_item #(`data_width,`addr_width),axi4l_sequence_item #(`data_width,`addr_width)) axi4l_sqr_h;
+	axi4l_driver #(`data_width,`addr_width) axi4l_drv_h;
+	axi4l_monitor #(`data_width,`addr_width) axi4l_mon_h;
 	
 	// Declare Analysis Port
-	uvm_analysis_port #(axi4l_sequence_item) axi4l_ap_w;
-	uvm_analysis_port #(axi4l_sequence_item) axi4l_ap_r;
+	uvm_analysis_port #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l_ap_w;
+	uvm_analysis_port #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l_ap_r;
 	
 	// New Constructor
 	function new(string name = "axi4l_agent", uvm_component parent = null);
@@ -31,15 +35,16 @@ class axi4l_agent extends uvm_agent;
 		
 		// Check if Agent is active so build the driver and sequencer
 		if(axi4l_cfg.active == UVM_ACTIVE) begin
-			axi4l_sqr_h = axi4l_sequencer #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::type_id::create("axi4l_sqr_h",this);
-			axi4l_drv_h = axi4l_driver #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::type_id::create("axi4l_drv_h",this);
+			//axi4l_sqr_h = axi4l_sequencer #(`data_width,`addr_width)::type_id::create("axi4l_sqr_h",this);
+			axi4l_sqr_h = new("axi4l_sqr_h",this);
+			axi4l_drv_h = axi4l_driver #(`data_width,`addr_width)::type_id::create("axi4l_drv_h",this);
 		end
 		
 		// Build the monitor and analysis port
-		axi4l_mon_h = axi4l_monitor #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::type_id::create("axi4l_mon_h",this);
-		// Build the analysis port dynamically
-		axi4l_ap_w = new("axi4l_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
-		axi4l_ap_r = new("axi4l_ap_w", this, axi4l_sequence_item #(axi4l_cfg.data_width, axi4l_cfg.addr_width)::get_type());
+		axi4l_mon_h = axi4l_monitor #(`data_width,`addr_width)::type_id::create("axi4l_mon_h",this);
+		// Build the analysis port
+		axi4l_ap_w = new("axi4l_ap_w", this);
+		axi4l_ap_r = new("axi4l_ap_w", this);
 		
 	endfunction
 	
