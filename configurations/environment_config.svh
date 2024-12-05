@@ -17,7 +17,7 @@ class gpio_env_config extends uvm_object;
 	gpio_agent_config  gpio_agent_config_h;
 	
 	// GPIO Register Model
-	// gpio_ral_model gpio_rm;
+	gpio_reg_block gpio_rm = null;
 	
 	// New Constructor
 	function new (string name = "gpio_env_config");

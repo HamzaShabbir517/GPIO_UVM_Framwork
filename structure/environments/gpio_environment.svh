@@ -14,6 +14,9 @@ class gpio_environment extends uvm_env;
 	axi4l_agent axi4l_agent_h;
 	gpio_agent gpio_agent_h;
 	
+	// Declaration of RAL Model
+	gpio_reg_block gpio_ral_model;
+	
 	// New Constructor
 	function new(string name = "gpio_environment", uvm_component parent = null);
 		super.new(name,parent);
@@ -42,6 +45,9 @@ class gpio_environment extends uvm_env;
 			// Set the agent configuration into database 
 			uvm_config_db #(gpio_agent_config)::set(this,"*","gpio_agent_config",env_cfg_h.gpio_agent_config_h);
 		end
+		
+		// Create the RAL Model
+		gpio_ral_model = env_cfg_h.gpio_rm;
 	endfunction
 	
 	// Connect Phase

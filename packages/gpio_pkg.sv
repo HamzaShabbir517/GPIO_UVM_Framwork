@@ -7,14 +7,22 @@ package gpio_pkg;
 	// Include uvm macros
 	`include "uvm_macros.svh"
 	
+	// RAL Modules
+	`include "gpio_regs.svh"
+	`include "gpio_reg_block.svh"
+	
 	// Include Environment and Agent Config Objects
 	`include "axi4l_agent_config.svh"
 	`include "gpio_agent_config.svh"
 	`include "environment_config.svh"
 	
+	
 	// Include Sequence Item
 	`include "axi4l_sequence_item.svh"
 	`include "gpio_sequence_item.svh"
+	
+	// RAL Adapter
+	`include "axi4l_reg_adapter.svh"
 	
 	// Structures
 	// Sequencers
@@ -34,6 +42,7 @@ package gpio_pkg;
 	`include "gpio_environment.svh"
 	
 	// Tests
+	`include "gpio_ral_test.svh"
 	`include "base_test.svh"
 	
 	

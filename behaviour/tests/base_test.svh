@@ -19,9 +19,6 @@ class gpio_base_test extends uvm_test;
 	// Declaration of gpio environment
 	gpio_environment gpio_env_h;
 	
-	// RAL Model instance
-	// gpio_ral_model m_ral;
-	
 	// Declaration of config objects
 	gpio_env_config env_cfg;
 	axi4l_agent_config axi4l_cfg;
@@ -34,10 +31,6 @@ class gpio_base_test extends uvm_test;
 		// Create the config objects and configure them
 		// Create the environment config object
 		env_cfg = gpio_env_config::type_id::create("env_cfg");
-		
-		// Create Register map
-		// m_ral = new("reg_map",null);
-		// env_cfg.gpio_rm = m_ral;
 		
 		// Create the AXI4 Lite config object and configure it
 		axi4l_cfg = axi4l_agent_config::type_id::create("axi4l_cfg");
