@@ -10,6 +10,7 @@ class axi4l_reg_adapter extends uvm_reg_adapter;
 	// New Constructor
 	function new(string name = "axi4l_reg_adapter");
 		super.new(name);
+		supports_byte_enable = 1;
 	endfunction
 	
 	// Register 2 Bus Conversion function

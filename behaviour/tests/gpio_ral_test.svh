@@ -15,9 +15,6 @@ class gpio_ral_test extends gpio_base_test;
 	// Declaration of GPIO RAL Model
 	gpio_reg_block m_ral;
 	
-	// Declaration of adapter
-	// axi4l_reg_adapter m_ral_adapter;
-	
 	// Declaration of config objects
 	gpio_env_config env_cfg;
 	
@@ -27,6 +24,7 @@ class gpio_ral_test extends gpio_base_test;
 		
 		// Create Register map
 		m_ral = gpio_reg_block::type_id::create("m_ral", this);
+		m_ral.build();
 		
 		// Get the environment config from database
 		if (!uvm_config_db#(gpio_env_config)::get(this, "*", "gpio_env_config", env_cfg))
