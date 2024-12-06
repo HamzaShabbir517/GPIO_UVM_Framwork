@@ -21,6 +21,10 @@ package gpio_pkg;
 	`include "axi4l_sequence_item.svh"
 	`include "gpio_sequence_item.svh"
 	
+	// Include Sequences
+	`include "gpio_sequence.svh"
+	
+	
 	// RAL Adapter
 	`include "axi4l_reg_adapter.svh"
 	
@@ -42,8 +46,10 @@ package gpio_pkg;
 	`include "gpio_environment.svh"
 	
 	// Tests
-	`include "gpio_ral_test.svh"
 	`include "base_test.svh"
+	`include "gpio_ral_test.svh"
+	`include "gpio_port_test.svh"
+	
 	
 	
 endpackage
