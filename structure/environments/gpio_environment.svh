@@ -8,7 +8,7 @@
 class gpio_environment extends uvm_env;
 	
 	// Register it with factory
-	`uvm_component_utils(gpio_environment);
+	`uvm_component_utils(gpio_environment)
 	
 	// Declaration of Environment Configuration object
 	gpio_env_config env_cfg_h;
@@ -60,7 +60,7 @@ class gpio_environment extends uvm_env;
 		
 		// Check if Environment Config have the valid RAL model or not
 		if(env_cfg_h.gpio_rm == null) begin
-			`uvm_error("GPIO ENV", "No Register Model found in cfg");
+			`uvm_info("GPIO ENV", "No Register Model found in cfg", UVM_MEDIUM);
 		end
 		else begin
 			// Getting the RAL model from config
@@ -86,7 +86,7 @@ class gpio_environment extends uvm_env;
 		end
 		// Build and connect the register model if exists
 		if(env_cfg_h.gpio_rm == null) begin
-			`uvm_error("GPIO ENV", "No Register Model found in cfg");
+			`uvm_info("GPIO ENV", "No Register Model found in cfg",UVM_MEDIUM);
 		end
 		else begin
 			axi4l_adapter = axi4l_reg_adapter::type_id::create("axi4l_adapter");

@@ -1,5 +1,5 @@
 // AXI4 Lite Interface Class
-interface axi4l_interface #(int addr_width, int data_width) (input bit clk, input bit rst);
+interface axi4l_interface #(int addr_width = 32, int data_width = 32) (input bit clk, input bit rst);
 
 	// Port list
 	// Write Address Channel

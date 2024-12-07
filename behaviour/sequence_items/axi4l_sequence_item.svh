@@ -24,6 +24,9 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 	// Wstrb is not zero when write is enable
 	constraint wstrb_non_zero { if (write) wstrb != 0;}
 	
+	// Address Range Constraint
+	constraint addr_range_c { addr >= 32'h0000_0000; addr <= 32'h0000_0028;}
+	
 	// New Constructor
 	function new(string name = "axi4l_sequence_item");
 		super.new(name);

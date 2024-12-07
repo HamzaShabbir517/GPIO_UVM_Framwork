@@ -5,7 +5,7 @@
 class axi4l_agent_config extends uvm_object;
 	
 	// Register it with factory
-	`uvm_object_utils(axi4l_agent_config);
+	`uvm_object_utils(axi4l_agent_config)
 	
 	// Declaration of Variables
 	uvm_active_passive_enum active = UVM_ACTIVE;

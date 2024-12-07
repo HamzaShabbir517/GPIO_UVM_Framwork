@@ -7,16 +7,19 @@ class gpio_ral_test extends gpio_base_test;
 	// Register it with factory
 	`uvm_component_utils(gpio_ral_test)
 	
-	// New Constructor
-	function new(string name = "gpio_ral_test", uvm_component parent = null);
-		super.new(name,parent);
-	endfunction
-	
 	// Declaration of GPIO RAL Model
 	gpio_reg_block m_ral;
 	
 	// Declaration of config objects
 	gpio_env_config env_cfg;
+	
+	// Declaring Sequence
+	ral_write_sequence write_seq;
+	
+	// New Constructor
+	function new(string name = "gpio_ral_test", uvm_component parent = null);
+		super.new(name,parent);
+	endfunction
 	
 	// Build Function
 	function void build_phase(uvm_phase phase);
@@ -36,4 +39,23 @@ class gpio_ral_test extends gpio_base_test;
 		uvm_config_db #(gpio_env_config)::set(this,"*","gpio_env_config",env_cfg);
 	
 	endfunction
+	
+	// Run task
+	task run_phase(uvm_phase phase);
+		
+		// Create the Sequence
+		write_seq = ral_write_sequence::type_id::create("write_seq");
+		
+		// Raise the objection
+		phase.raise_objection(this);
+		
+		// Assign the register model to the sequence
+		write_seq.gpio_ral_model = m_ral;
+		
+		// Start the Sequence
+		write_seq.start(gpio_env_h.axi4l_agent_h.axi4l_sqr_h);
+		
+		// Drop the objection
+		phase.drop_objection(this);
+	endtask
 endclass

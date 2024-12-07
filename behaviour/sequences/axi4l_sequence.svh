@@ -1,17 +1,17 @@
 // Include defines
-`include "gpio_defines.svh"
+`include "axi4l_defines.svh"
 
-// Declare GPIO Sequence
-class gpio_sequence extends uvm_sequence #(gpio_sequence_item #(`NUM_PINS));
+// Declare AXI4 Lite Sequence
+class axi4l_sequence extends uvm_sequence #(axi4l_sequence_item #(`data_width,`addr_width));
 	
 	// Register it with factory
-	`uvm_object_utils(gpio_sequence)
+	`uvm_object_utils(axi4l_sequence)
 	
 	// Declaraton of Sequence item
-	gpio_sequence_item #(`NUM_PINS) seq_item, seq_item_c;
+	axi4l_sequence_item #(`data_width,`addr_width) seq_item, seq_item_c;
 	
 	// New Constructor
-	function new(string name = "gpio_sequence");
+	function new(string name = "axi4l_sequence");
 		super.new(name);
 	endfunction 
 	
@@ -19,13 +19,13 @@ class gpio_sequence extends uvm_sequence #(gpio_sequence_item #(`NUM_PINS));
 	task body();
 		
 		// Create the Sequence Item
-		seq_item = gpio_sequence_item #(`NUM_PINS)::type_id::create("seq_item");
+		seq_item = axi4l_sequence_item #(`data_width,`addr_width)::type_id::create("seq_item");
 		
 		// Repeating the Sequence for multiple times
-		repeat(10) begin
+		repeat(50) begin
 		
 			// Clone the Sequence item using Cast
-			$cast(seq_item_c,seq_item.clone());
+			$cast(seq_item_c,seq_item.clone);
 			
 			// Start the Sequence Item handshaking 
 			start_item(seq_item_c);
@@ -37,7 +37,7 @@ class gpio_sequence extends uvm_sequence #(gpio_sequence_item #(`NUM_PINS));
 			finish_item(seq_item_c);
 			
 			// Print the values
-			`uvm_info("GPIO Sequence",seq_item_c.convert2string(),UVM_MEDIUM);
+			`uvm_info("AXI4 Lite Sequence",seq_item_c.convert2string(),UVM_MEDIUM);
 		end
 	endtask
 endclass

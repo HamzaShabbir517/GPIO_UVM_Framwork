@@ -1,5 +1,5 @@
 // GPIO Interface Class
-interface gpio_interface #(int NUM_PINS) (input bit clk, input bit rst);
+interface gpio_interface #(int NUM_PINS = 8) (input bit clk, input bit rst);
 
 	// Port List
 	logic [NUM_PINS-1:0] gpio_in;

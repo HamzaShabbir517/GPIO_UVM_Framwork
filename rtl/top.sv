@@ -8,21 +8,21 @@ import gpio_pkg::*;
 `include "axi4l_defines.svh"
 `include "gpio_defines.svh"
 
-module top();
+module top;
 
 	// Declaration of clock signal
 	bit clk;
 	bit rst;
 	
 	// Declaration of interfaces
-	axi4l_interface #(`addr_width,`data_width) axi4l_if (clk, rst);
-	gpio_interface #(`NUM_PINS) gpio_if (clk, rst);
+	axi4l_interface #(`addr_width,`data_width) axi4l_if (.clk(clk), .rst(rst));
+	gpio_interface #(`NUM_PINS) gpio_if (.clk(clk), .rst(rst));
 	
 	// Declaration of Design Under Test
-	gpio dut (
+	/* gpio dut (
 			.clk_i(clk),
-			// AXI4 Lite Interface Connection
 			.rst_i(rst),
+			// AXI4 Lite Interface Connection
 			.cfg_awaddr_i(axi4l_if.AWADDR),
 			.cfg_awvalid_i(axi4l_if.AWVALID),
 			.cfg_awready_o(axi4l_if.AWREADY),
@@ -46,15 +46,15 @@ module top();
 			.gpio_output_enable_o(gpio_if.gpio_oe),
 			.intr_o(gpio_if.intr)
 		 );
-	
+	*/
 	// Reset and Clock Generation 
 	initial begin
 		clk = 0;
-		rst = 0;
-		repeat (8) begin
+		rst = 1;
+		repeat(8) begin
 			#10ns clk = ~clk;
 		end
-		rst = 1;
+		rst = 0;
 		forever begin
 			#10ns clk = ~clk;
 		end
@@ -64,10 +64,10 @@ module top();
 	initial begin
 		
 		// Set the AXI4 Lite Virtual interface into Config DB
-		uvm_config_db #(virtual axi4l_interface #(`addr_width,`data_width))::set(null,"this", "axi4l_vif", axi4l_if);
+		uvm_config_db #(virtual axi4l_interface #(`addr_width,`data_width))::set(null,"*", "axi4l_vif", axi4l_if);
 		
 		// Set the GPIO interface into Config DB
-		uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::set(null,"this","gpio_vif",gpio_if);
+		uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::set(null,"*","gpio_vif",gpio_if);
 		
 		// Run the UVM Test
 		run_test();  
