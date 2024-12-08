@@ -15,6 +15,7 @@ class gpio_ral_test extends gpio_base_test;
 	
 	// Declaring Sequence
 	ral_write_sequence write_seq;
+	ral_read_sequence read_seq;
 	
 	// New Constructor
 	function new(string name = "gpio_ral_test", uvm_component parent = null);
@@ -45,15 +46,21 @@ class gpio_ral_test extends gpio_base_test;
 		
 		// Create the Sequence
 		write_seq = ral_write_sequence::type_id::create("write_seq");
+		read_seq = ral_read_sequence::type_id::create("read_seq");
 		
 		// Raise the objection
 		phase.raise_objection(this);
 		
 		// Assign the register model to the sequence
 		write_seq.gpio_ral_model = m_ral;
+		read_seq.gpio_ral_model = m_ral;
 		
-		// Start the Sequence
-		write_seq.start(gpio_env_h.axi4l_agent_h.axi4l_sqr_h);
+		fork
+			// Start the Sequence
+			write_seq.start(gpio_env_h.axi4l_agent_h.axi4l_sqr_h);
+			read_seq.start(gpio_env_h.axi4l_agent_h.axi4l_sqr_h);
+		
+		join
 		
 		// Drop the objection
 		phase.drop_objection(this);

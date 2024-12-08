@@ -17,8 +17,13 @@ class axi4l_agent extends uvm_agent;
 	axi4l_monitor #(`data_width,`addr_width) axi4l_mon_h;
 	
 	// Declare Analysis Port
-	uvm_analysis_port #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l_ap_w;
-	uvm_analysis_port #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l_ap_r;
+	uvm_analysis_port #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l_agent_ap;
+	
+	// Declaration of TLM Analysis FiFo for AXI4 Lite Agent
+	uvm_tlm_analysis_fifo #(axi4l_sequence_item #(`data_width,`addr_width)) fifo;
+	
+	// Declaration of Sequence Item
+	axi4l_sequence_item #(`data_width,`addr_width) seq_item;
 	
 	// New Constructor
 	function new(string name = "axi4l_agent", uvm_component parent = null);
@@ -42,19 +47,23 @@ class axi4l_agent extends uvm_agent;
 		
 		// Build the monitor and analysis port
 		axi4l_mon_h = axi4l_monitor #(`data_width,`addr_width)::type_id::create("axi4l_mon_h",this);
-		// Build the analysis port
-		axi4l_ap_w = new("axi4l_ap_w", this);
-		axi4l_ap_r = new("axi4l_ap_r", this);
 		
+		// Build the analysis port
+		axi4l_agent_ap = new("axi4l_agent_ap", this);
+		
+		// Build the Analysis FIFO
+		fifo = uvm_tlm_analysis_fifo #(axi4l_sequence_item #(`data_width,`addr_width))::type_id::create("fifo", this);
+
 	endfunction
 	
 	// Connect Phase
 	function void connect_phase(uvm_phase phase);
 		super.connect_phase(phase);
 		
-		// Connect Monitor Analysis port with Agent Analysis port
-		axi4l_mon_h.axi4l_m_ap_w.connect(axi4l_ap_w);
-		axi4l_mon_h.axi4l_m_ap_r.connect(axi4l_ap_r);
+		// Connect Monitor Analysis port with TLM Analysis FIFO
+		axi4l_mon_h.axi4l_m_ap_w.connect(fifo.analysis_export);
+		axi4l_mon_h.axi4l_m_ap_r.connect(fifo.analysis_export);
+		
 		// Pass the Virtual Interface to monitor
 		axi4l_mon_h.vif = axi4l_cfg.axi4l_if;
 		
@@ -66,4 +75,14 @@ class axi4l_agent extends uvm_agent;
 			axi4l_drv_h.vif = axi4l_cfg.axi4l_if; 
 		end
 	endfunction
+	
+	// Run Task
+	task run_phase(uvm_phase phase);
+		// If FIFO is not empty get the item and write it on agent port
+		if (!fifo.is_empty()) begin
+			fifo.get(seq_item);
+			// Send to the analysis port for reg_predictor consumption
+			axi4l_agent_ap.write(seq_item);
+        end
+	endtask
 endclass

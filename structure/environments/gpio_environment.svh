@@ -26,8 +26,6 @@ class gpio_environment extends uvm_env;
 	// Declaring the Predictor of RAL
 	uvm_reg_predictor #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l2reg_predictor;
 	
-	// Declaration of TLM Analysis FiFo for AXI4 Lite Agent
-	uvm_tlm_analysis_fifo #(axi4l_sequence_item #(`data_width,`addr_width)) fifo;
 	
 	// New Constructor
 	function new(string name = "gpio_environment", uvm_component parent = null);
@@ -69,21 +67,11 @@ class gpio_environment extends uvm_env;
 			axi4l2reg_predictor = new("axi4l2reg_predictor", this);
 		end
 		
-		// Build the Analysis FIFO
-		fifo = uvm_tlm_analysis_fifo #(axi4l_sequence_item #(`data_width,`addr_width))::type_id::create("fifo", this);
-		
 	endfunction
 	
 	// Connect Phase
 	function void connect_phase(uvm_phase phase);
 		
-		// Connecting the AXI4 Lite agent with Anlysis FIFO
-		if(env_cfg_h.has_axi4l_agent) begin
-			// Connect Write Port
-			axi4l_agent_h.axi4l_ap_w.connect(fifo.analysis_export);
-			// Connect Read Port
-			axi4l_agent_h.axi4l_ap_r.connect(fifo.analysis_export);
-		end
 		// Build and connect the register model if exists
 		if(env_cfg_h.gpio_rm == null) begin
 			`uvm_info("GPIO ENV", "No Register Model found in cfg",UVM_MEDIUM);
@@ -99,8 +87,8 @@ class gpio_environment extends uvm_env;
 			axi4l2reg_predictor.map = gpio_ral_model.axi4l_map;
 			// Connect the predictor adapter with actual adapter
 			axi4l2reg_predictor.adapter = axi4l_adapter;
-			// Connect the FIFO Analysis port with predictor
-			fifo.analysis_export.connect(axi4l2reg_predictor.bus_in);
+			// Connect the Agent Analysis port with predictor
+			axi4l_agent_h.axi4l_agent_ap.connect(axi4l2reg_predictor.bus_in);
 		end
 	endfunction
 endclass
