@@ -108,7 +108,7 @@ module axi_gpio (
             end
 
             // Write Response
-            if (axi_awready && axi_wready && !axi_bvalid) begin
+            if (axi_wready &&  wvalid && !axi_bvalid) begin
                 axi_bvalid <= 1'b1;
                 axi_bresp  <= 2'b00; // OKAY response
             end else if (bready && axi_bvalid) begin
