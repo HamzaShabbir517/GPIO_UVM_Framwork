@@ -59,7 +59,7 @@ class gpio_base_test extends uvm_test;
 		// Agent is active
 		cfg.active = UVM_ACTIVE;
 		// Start & End Address
-		cfg.start_address = 32'h2000000;
+		cfg.start_address = 32'h20000000;
 		cfg.end_address = 32'h2fffffff;
 		cfg.timeout_cycles = 100;
 		// Get the virtual interface from config db
