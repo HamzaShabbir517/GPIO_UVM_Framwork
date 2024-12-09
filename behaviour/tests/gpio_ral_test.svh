@@ -35,6 +35,7 @@ class gpio_ral_test extends gpio_base_test;
 			`uvm_fatal("RAL TEST", "Environment configuration not found");
 			
 		env_cfg.gpio_rm = m_ral;
+		env_cfg.has_axi4l_agent = 1;
 		
 		// Set the Environment config back to data base
 		uvm_config_db #(gpio_env_config)::set(this,"*","gpio_env_config",env_cfg);

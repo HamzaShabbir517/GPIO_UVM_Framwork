@@ -7,17 +7,29 @@ class axi4l_test extends gpio_base_test;
 	// Register it with factory
 	`uvm_component_utils(axi4l_test)
 	
+	// Declaration of config objects
+	gpio_env_config env_cfg;
+	
+	// Declaration of Sequence
+	axi4l_sequence axi4l_seq;
+	
 	// New Constructor
 	function new(string name = "axi4l_test", uvm_component parent = null);
 		super.new(name,parent);
 	endfunction
 	
-	// Declaration of Sequence
-	axi4l_sequence axi4l_seq;
-	
 	// Build Function
 	function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
+		
+		// Get the Environment Config from Data Base
+		if (!uvm_config_db #(gpio_env_config)::get(this, "*", "gpio_env_config", env_cfg))
+			`uvm_fatal("GPIO PORT TEST", "Environment configuration not found");
+			
+		env_cfg.has_axi4l_agent = 1;
+		
+		// Set the Environment config back to data base
+		uvm_config_db #(gpio_env_config)::set(this,"*","gpio_env_config",env_cfg);
 	endfunction
 	
 	// Run task

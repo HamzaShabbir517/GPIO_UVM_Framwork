@@ -45,8 +45,8 @@ class gpio_base_test extends uvm_test;
 		// Configure the rest of the environment config variables
 		env_cfg.has_scoreboard = 0;
 		env_cfg.has_functional_coverage = 0;
-		env_cfg.has_axi4l_agent = 1;
-		env_cfg.has_gpio_agent = 1; 
+		env_cfg.has_axi4l_agent = 0;
+		env_cfg.has_gpio_agent = 0; 
 		// Set the Environment Configuration into Data base
 		uvm_config_db #(gpio_env_config)::set(this,"*","gpio_env_config",env_cfg);
 		// Create Top Environment
