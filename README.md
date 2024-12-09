@@ -16,7 +16,7 @@ This framework is modular, so it can be easily extended to accommodate more comp
 
 # Framework Components
 
-1. Base Test (gpio_base_test)
+1. Base Test(gpio_base_test):
 
 	The gpio_base_test class is responsible for initializing and configuring the test environment for the GPIO module. It includes:
 
@@ -25,13 +25,15 @@ This framework is modular, so it can be easily extended to accommodate more comp
 	3. Use of the UVM Configuration Database (config_db) to retrieve configuration settings.
 	4. A flexible environment that allows easy addition of extra GPIO agents or other peripherals if necessary.
 
-2. Virtual Sequences (virtual_seq)
+2. Virtual Sequences(virtual_seq):
+	
 	Virtual sequences allow the concurrent execution of multiple test sequences. This extension is useful for testing interactions between GPIO operations and AXI4-Lite transactions, where both components operate together. This class:
 
 	1. Simultaneously runs the gpio_sequence and axi4l_sequence, ensuring that both interfaces can operate without conflict in a synchronized manner.
 	2. Enhances realism by simulating the environment of an actual system where both interfaces are in continuous operation.
 	
-3. Test Sequences
+3. Test Sequences:
+	
 	The framework includes predefined test sequences to simulate various operational scenarios. These sequences include:
 
 	1. GPIO Sequence: Tests the functionality of the GPIO module by generating random inputs and checking both read and write operations.
