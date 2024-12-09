@@ -27,15 +27,14 @@ package gpio_pkg;
 	`include "ral_base_sequence.svh"
 	`include "ral_write_sequence.svh"
 	`include "ral_read_sequence.svh"
+	`include "virtual_seq_base.svh"
+	`include "virtual_seq.svh"
 	
 	
 	// RAL Adapter
 	`include "axi4l_reg_adapter.svh"
 	
 	// Structures
-	// Sequencers
-	`include "axi4l_sequencer.svh"
-	`include "gpio_sequencer.svh"
 	// Drivers
 	`include "axi4l_driver.svh"
 	`include "gpio_driver.svh"
@@ -54,6 +53,7 @@ package gpio_pkg;
 	`include "gpio_ral_test.svh"
 	`include "gpio_port_test.svh"
 	`include "axi4l_test.svh"
+	`include "virtual_sequence_test.svh"
 	
 	
 	

@@ -7,8 +7,8 @@ rtl/top.sv
 +incdir+./configurations/
 +incdir+./behaviour/sequence_items/
 +incdir+./behaviour/sequences/
++incdir+./behaviour/sequences/virtual_sequences/
 +incdir+./structure/register_layer/
-+incdir+./structure/sequencers/
 +incdir+./structure/drivers/
 +incdir+./structure/monitors/
 +incdir+./structure/agents/

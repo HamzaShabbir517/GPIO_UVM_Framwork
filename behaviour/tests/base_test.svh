@@ -49,6 +49,7 @@ class gpio_base_test extends uvm_test;
 		env_cfg.has_gpio_agent = 0; 
 		// Set the Environment Configuration into Data base
 		uvm_config_db #(gpio_env_config)::set(this,"*","gpio_env_config",env_cfg);
+		
 		// Create Top Environment
 		gpio_env_h = gpio_environment::type_id::create("gpio_env_h",this);
 	endfunction
@@ -73,5 +74,21 @@ class gpio_base_test extends uvm_test;
 		// Get the virtual interface from config db
 		if(!uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::get(this,"*","gpio_vif",cfg.gpio_if))
 		`uvm_fatal("Base Test",$sformatf("GPIO Virtual Interface Not Found"));
+	endfunction
+	
+	function void init_vseq(vseq_base vseq);
+		// Declare config object
+		gpio_env_config cfg;
+		// get the config from database
+		if (!uvm_config_db #(gpio_env_config)::get(this, "*", "gpio_env_config", cfg))
+			`uvm_fatal("Base Test", "Environment configuration not found");
+		
+		// If AXI4 Lite Agent in active than only connect it	
+		if(cfg.axi4l_agent_config_h.active == UVM_ACTIVE)
+			vseq.axi4l_sqr_h = gpio_env_h.axi4l_agent_h.axi4l_sqr_h;
+		
+		// if GPIO Agent is active than only connect it
+		if(cfg.gpio_agent_config_h.active == UVM_ACTIVE)
+			vseq.gpio_sqr_h = gpio_env_h.gpio_agent_h.gpio_sqr_h;
 	endfunction
 endclass 
