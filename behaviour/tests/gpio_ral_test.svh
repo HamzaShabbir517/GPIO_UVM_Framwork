@@ -14,6 +14,7 @@ class gpio_ral_test extends gpio_base_test;
 	gpio_env_config env_cfg;
 	
 	// Declaring Sequence
+	ral_mix_sequence mix_seq;
 	ral_write_sequence write_seq;
 	ral_read_sequence read_seq;
 	
@@ -46,6 +47,7 @@ class gpio_ral_test extends gpio_base_test;
 	task run_phase(uvm_phase phase);
 		
 		// Create the Sequence
+		mix_seq = ral_mix_sequence::type_id::create("mix_seq");
 		write_seq = ral_write_sequence::type_id::create("write_seq");
 		read_seq = ral_read_sequence::type_id::create("read_seq");
 		
@@ -53,6 +55,7 @@ class gpio_ral_test extends gpio_base_test;
 		phase.raise_objection(this);
 		
 		// Assign the register model to the sequence
+		mix_seq.gpio_ral_model = m_ral;
 		write_seq.gpio_ral_model = m_ral;
 		read_seq.gpio_ral_model = m_ral;
 		
@@ -62,6 +65,9 @@ class gpio_ral_test extends gpio_base_test;
 			read_seq.start(gpio_env_h.axi4l_agent_h.axi4l_sqr_h);
 		
 		join
+		
+		// Start the Sequence
+		mix_seq.start(gpio_env_h.axi4l_agent_h.axi4l_sqr_h);
 		
 		// Drop the objection
 		phase.drop_objection(this);
