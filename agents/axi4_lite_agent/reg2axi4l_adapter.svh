@@ -34,7 +34,7 @@ class reg2axi4l_adapter extends uvm_reg_adapter;
 		// Now convert the register sequence into bus sequence
 		axi4l_seq.addr = rw.addr;
 		axi4l_seq.write = (rw.kind == UVM_WRITE);
-		axi4l_seq.wdata = rw.data;
+		axi4l_seq.data = rw.data;
 		axi4l_seq.wstrb = rw.byte_en;
 		
 		return axi4l_seq;
@@ -54,7 +54,7 @@ ref uvm_reg_bus_op rw);
 		
 		// Now Convert the bus sequence into register
 		rw.addr = axi4l_seq.addr;
-		rw.data = axi4l_seq.rdata;
+		rw.data = axi4l_seq.data;
 		rw.kind = axi4l_seq.write ? UVM_WRITE : UVM_READ;
 		rw.status = (axi4l_seq.resp == 2'b00) ? UVM_IS_OK : UVM_NOT_OK;
 	endfunction

@@ -99,7 +99,7 @@ class axi4l_driver #(int data_width = 32, int addr_width = 32) extends uvm_drive
 			
 			// Start the Write Data Channel
 			vif.WVALID <= 1;
-			vif.WDATA <= axi4l_item.wdata;
+			vif.WDATA <= axi4l_item.data;
 			vif.WSTRB <= axi4l_item.wstrb;
 			
 			// Wait for WREADY with timeout
@@ -172,7 +172,7 @@ class axi4l_driver #(int data_width = 32, int addr_width = 32) extends uvm_drive
       				return;
     			end
     			
-			axi4l_item.rdata <= vif.RDATA;
+			axi4l_item.data <= vif.RDATA;
 			axi4l_item.resp <= vif.RRESP;
 			// Wait for posedge
 			@(posedge vif.clk);

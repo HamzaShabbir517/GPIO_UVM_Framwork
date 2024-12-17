@@ -10,35 +10,31 @@ class axi4l_coverage_monitor extends uvm_subscriber #(axi4l_sequence_item #(`dat
 	// Declaration of Covergroups
 	covergroup axi4l_cov;
 		// Declaration of Read Write Coverpoint
-		Write: coverpoint trans.write {
+		Write_Read: coverpoint trans.write {
 			bins write = {1};
-		}
-		
-		Read: coverpoint trans.write {
 			bins read = {0};
 		}
+		
 	
 		// Declaration of Address Coverpoint
-		Address: coverpoint trans.addr {
+		Address: coverpoint trans.addr[7:0] {
 			bins addr_range[] = {[0:255]};
 		}
 		
-		cross Write, Address;
-		cross Read,  Address;
+		cross Write_Read, Address;
 		
 		Write_strb: coverpoint trans.wstrb {
 			bins full_strobes[] = {4'b0001, 4'b0011, 4'b1111};
 		}
 		
-		cross Write, Write_strb;
+		cross Write_Read, Write_strb;
 		
 		Response: coverpoint trans.resp {
 			bins ok = {2'b00};
 			bins err = {2'b01, 2'b10, 2'b11};
 		}
 		
-		cross Write, Response;
-		cross Read,  Response;
+		cross Write_Read, Response;
 	endgroup
 	
 	// Declaration of seq Item

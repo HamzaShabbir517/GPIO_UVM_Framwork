@@ -10,11 +10,10 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 	// Request Variables
 	rand logic [`addr_width-1:0] addr;
 	rand bit write;
-	rand logic [`data_width-1:0] wdata;
+	rand logic [`data_width-1:0] data;
 	rand logic [(`data_width/8)-1:0] wstrb;
 	
 	// Response Vaiables
-	logic [`data_width-1:0] rdata;
 	logic [1:0] resp;
 	
 	// Constraints
@@ -27,6 +26,9 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 	// Address Range Constraint
 	// constraint addr_range_c { addr >= 32'h0000_0000; addr <= 32'h0000_0014;}
 	
+	// Write Strobe must be inside
+	constraint wstrb_range { wstrb inside {1,3,15}; }
+	
 	// New Constructor
 	function new(string name = "axi4l_sequence_item");
 		super.new(name);
@@ -34,7 +36,7 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 	
 	// Convert 2 string function
 	virtual function string convert2string();
-		return $sformatf("AXI4 Lite: addr=0x%8h \t write=%1b \t wdata=0x%8h \t wstrb=0x%1h \t rdata=0x%8h \t resp=0x%2b", addr, write, wdata, wstrb, rdata, resp);
+		return $sformatf("AXI4 Lite: addr=0x%8h \t write=%1b \t data=0x%8h \t wstrb=0x%1h \t  resp=0x%2b", addr, write, data, wstrb, resp);
 	endfunction
 	
 	// Do Copy function
@@ -53,9 +55,8 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 		// Copy the variables
 		addr = RHS.addr;
 		write = RHS.write;
-		wdata = RHS.wdata;
+		data = RHS.data;
 		wstrb = RHS.wstrb;
-		rdata = RHS.rdata;
 		resp = RHS.resp;
 	endfunction
 	
@@ -72,10 +73,9 @@ class axi4l_sequence_item #(int data_width = 32, int addr_width = 32) extends uv
 		
 		// Call the super do_compare and also compare the other variables
 		return ((super.do_compare(rhs,comparer)) && (addr  == RHS.addr) 
-							&& (wdata == RHS.wdata)
+							&& (data == RHS.data)
 							&& (wstrb == RHS.wstrb)
 							&& (write == RHS.write)
-							&& (rdata == RHS.rdata)
 							&& (resp  == RHS.resp));
 	endfunction
 	

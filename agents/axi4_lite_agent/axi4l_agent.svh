@@ -21,12 +21,6 @@ class axi4l_agent extends uvm_agent;
 	// Declare Analysis Port
 	uvm_analysis_port #(axi4l_sequence_item #(`data_width,`addr_width)) axi4l_agent_ap;
 	
-	// Declaration of TLM Analysis FiFo for AXI4 Lite Agent
-	uvm_tlm_analysis_fifo #(axi4l_sequence_item #(`data_width,`addr_width)) fifo;
-	
-	// Declaration of Sequence Item
-	axi4l_sequence_item #(`data_width,`addr_width) seq_item;
-	
 	// New Constructor
 	function new(string name = "axi4l_agent", uvm_component parent = null);
 		super.new(name,parent);
@@ -55,9 +49,6 @@ class axi4l_agent extends uvm_agent;
 			
 		// Build the analysis port
 		axi4l_agent_ap = new("axi4l_agent_ap", this);
-		
-		// Build the Analysis FIFO
-		fifo = new("fifo", this);
 
 	endfunction
 	
@@ -65,9 +56,8 @@ class axi4l_agent extends uvm_agent;
 	function void connect_phase(uvm_phase phase);
 		super.connect_phase(phase);
 		
-		// Connect Monitor Analysis port with TLM Analysis FIFO
-		axi4l_mon_h.axi4l_m_ap_w.connect(fifo.analysis_export);
-		axi4l_mon_h.axi4l_m_ap_r.connect(fifo.analysis_export);
+		// Connect Monitor Analysis port with Agent
+		axi4l_mon_h.axi4l_m_ap.connect(axi4l_agent_ap);
 		
 		// Pass the Virtual Interface to monitor
 		axi4l_mon_h.vif = axi4l_cfg.axi4l_if;
@@ -82,19 +72,8 @@ class axi4l_agent extends uvm_agent;
 		
 		// Check if Functional Coverage is active so connect fifo with it
 		if(axi4l_cfg.has_functional_coverage) begin
-			axi4l_mon_h.axi4l_m_ap_w.connect(axi4l_fcov_monitor.analysis_export);
-			axi4l_mon_h.axi4l_m_ap_r.connect(axi4l_fcov_monitor.analysis_export);
+			axi4l_mon_h.axi4l_m_ap.connect(axi4l_fcov_monitor.analysis_export);
 		end
 		
 	endfunction
-	
-	// Run Task
-	task run_phase(uvm_phase phase);
-		// If FIFO is not empty get the item and write it on agent port
-		while (!fifo.is_empty()) begin
-			fifo.get(seq_item);
-			// Send to the analysis port for reg_predictor consumption
-			axi4l_agent_ap.write(seq_item);
-        	end
-	endtask
 endclass

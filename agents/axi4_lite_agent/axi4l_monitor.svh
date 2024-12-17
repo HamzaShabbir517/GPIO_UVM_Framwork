@@ -14,8 +14,7 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
 	virtual interface axi4l_interface #(`addr_width,`data_width) vif;
 	
 	// Declaration of Analysis ports
-	uvm_analysis_port #(axi4l_sequence_item #(`addr_width,`data_width)) axi4l_m_ap_w; // Write port
-	uvm_analysis_port #(axi4l_sequence_item #(`addr_width,`data_width)) axi4l_m_ap_r; // Read port
+	uvm_analysis_port #(axi4l_sequence_item #(`addr_width,`data_width)) axi4l_m_ap; // Analysis port
 	
 	// New Constructor
 	function new(string name = "axi4l_monitor", uvm_component parent = null);
@@ -30,10 +29,8 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
 		`get_config(axi4l_agent_config,axi4l_cfg,"axi4l_agent_config")
 		
 		// Build the analysis port
-		// Write port
-		axi4l_m_ap_w = new("axi4l_m_ap_w", this);
-		// Read port
-		axi4l_m_ap_r = new("axi4l_m_ap_r", this);
+		// Analysis port
+		axi4l_m_ap = new("axi4l_m_ap", this);
 		
 	endfunction
 	
@@ -54,27 +51,26 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
 		axi4l_sequence_item #(`data_width, `addr_width) axi4l_item, axi4l_item_clone;
 		axi4l_item = axi4l_sequence_item #(`data_width, `addr_width)::type_id::create("axi4l_item", this);
 
-		// Wait for posedge clk
-		@(posedge vif.clk);
 		// Check it the write transaction is initiated
 		if (vif.AWVALID && vif.AWREADY) begin
 			axi4l_item.addr = vif.AWADDR;
 			axi4l_item.write = 1;
 
 			// Wait for WVALID handshake
-			@(posedge vif.clk);
+			vif.wait_clks(3);
 			if (vif.WVALID && vif.WREADY) begin
-				axi4l_item.wdata = vif.WDATA;
+				axi4l_item.data = vif.WDATA;
 				axi4l_item.wstrb = vif.WSTRB;
 
 				// Wait for BVALID handshake
-				@(posedge vif.clk);
+				vif.wait_clks(3);
 				if (vif.BVALID) begin
+					`uvm_info("AXI4 Lite Monitor","Write Response Receive",UVM_MEDIUM)
 					axi4l_item.resp = vif.BRESP;
 					// Create a copy of the transaction object using clone()
 					$cast(axi4l_item_clone, axi4l_item.clone()); 
 					// Write transaction complete, send via analysis port
-					axi4l_m_ap_w.write(axi4l_item_clone);
+					axi4l_m_ap.write(axi4l_item_clone);
 				end
 			end
 		end
@@ -95,12 +91,13 @@ class axi4l_monitor #(int data_width = 32, int addr_width = 32) extends uvm_moni
 			// Wait for RVALID handshake
 			@(posedge vif.clk);
 			if (vif.RVALID) begin
-				axi4l_item.rdata = vif.RDATA;
+				`uvm_info("AXI4 Lite Monitor","Read Response Receive",UVM_MEDIUM)
+				axi4l_item.data = vif.RDATA;
 				axi4l_item.resp = vif.RRESP;
 				// Create a copy of the transaction object using clone()
 				$cast(axi4l_item_clone, axi4l_item.clone()); 
 				// Read transaction complete, send via analysis port
-				axi4l_m_ap_r.write(axi4l_item_clone);
+				axi4l_m_ap.write(axi4l_item_clone);
 			end
 		end
 	endtask
