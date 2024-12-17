@@ -6,7 +6,7 @@ RTL       ?= ../../../rtl
 AGENTS    ?= ../../../agents
 UTILS     ?= ../../../utils
 INCLUDES  ?= ../../../includes
-TEST      ?= gpio_port_test
+TEST      ?= gpio_base_test
 UVM_HOME  := $(QUESTA_HOME)/verilog_src/uvm-1.2
 
 work:
@@ -41,7 +41,10 @@ opt:
 	vopt hdl_top hvl_top -o opt -debug -designfile design.bin
 	
 sim:
-	vsim -c opt -qwavedb=+signal+class -do "run -a; quit" +UVM_TESTNAME="$(TEST)"
+	vsim -gui opt -do "run -all; coverage save -onexit coverage.dat;" +UVM_TESTNAME="$(TEST)"
 	
 clean:
 	@rm -rf work transcript
+	
+	
+

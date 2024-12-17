@@ -27,6 +27,7 @@ class gpio_port_test extends gpio_base_test;
 			`uvm_fatal("GPIO PORT TEST", "Environment configuration not found");
 			
 		env_cfg.has_gpio_agent = 1;
+		env_cfg.gpio_agent_config_h.active = UVM_ACTIVE;
 		
 		// Set the Environment config back to data base
 		uvm_config_db #(gpio_axi4l_env_config)::set(this,"*","gpio_axi4l_env_config",env_cfg);

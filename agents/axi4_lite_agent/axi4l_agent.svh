@@ -82,7 +82,8 @@ class axi4l_agent extends uvm_agent;
 		
 		// Check if Functional Coverage is active so connect fifo with it
 		if(axi4l_cfg.has_functional_coverage) begin
-			//fifo.connect(axi4l_fcov_monitor.analysis_export);
+			axi4l_mon_h.axi4l_m_ap_w.connect(axi4l_fcov_monitor.analysis_export);
+			axi4l_mon_h.axi4l_m_ap_r.connect(axi4l_fcov_monitor.analysis_export);
 		end
 		
 	endfunction

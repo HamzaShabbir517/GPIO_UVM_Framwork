@@ -28,7 +28,9 @@ class virt_seq_test extends gpio_base_test;
 			`uvm_fatal("Virtual Sequence TEST", "Environment configuration not found");
 			
 		env_cfg.has_axi4l_agent = 1;
+		env_cfg.axi4l_agent_config_h.active = UVM_ACTIVE;
 		env_cfg.has_gpio_agent = 1;
+		env_cfg.gpio_agent_config_h.active = UVM_ACTIVE;
 		
 		// Set the Environment config back to data base
 		uvm_config_db #(gpio_axi4l_env_config)::set(this,"*","gpio_axi4l_env_config",env_cfg);
@@ -41,6 +43,9 @@ class virt_seq_test extends gpio_base_test;
 		// Create the Sequence
 		vseq_1 = basic_test_vseq::type_id::create("vseq_1");
 		vseq_2 = reg_test_vseq::type_id::create("vseq_2");
+		
+		vseq_1.env_cfg = env_cfg;
+		vseq_2.env_cfg = env_cfg;
 		
 		// Raise the objection
 		phase.raise_objection(this);

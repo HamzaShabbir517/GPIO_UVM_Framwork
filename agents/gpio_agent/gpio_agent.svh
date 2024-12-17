@@ -33,7 +33,7 @@ class gpio_agent extends uvm_agent;
 		// Check if Agent is active so build the driver and sequencer
 		if(gpio_cfg.active == UVM_ACTIVE) begin
 			//gpio_sqr_h = gpio_sequencer #(`NUM_PINS)::type_id::create("gpio_sqr_h",this);
-			gpio_sqr_h = gpio_sequencer::type_id::create("gpio_drv_h",this);
+			gpio_sqr_h = gpio_sequencer::type_id::create("gpio_sqr_h",this);
 			gpio_drv_h = gpio_driver #(`NUM_PINS)::type_id::create("gpio_drv_h",this);
 		end
 		

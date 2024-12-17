@@ -69,9 +69,8 @@ class gpio_axi4l_environment extends uvm_env;
 				env_cfg.gpio_rm.gpio_axi4l_map.set_sequencer(axi4l_agent_h.axi4l_sqr_h, axi4l_adapter);
 				
 				// Configure the starting address of Map
-					env_cfg.gpio_rm.gpio_axi4l_map.set_base_addr(env_cfg.axi4l_agent_config_h.start_address);
+				env_cfg.gpio_rm.gpio_axi4l_map.set_base_addr(env_cfg.axi4l_agent_config_h.start_address);
 			end
-		end
 			
 			// Replacing implicit register model prediction with explicit prediction
 			// Connect the predictor map with ral map 
@@ -82,5 +81,6 @@ class gpio_axi4l_environment extends uvm_env;
 			env_cfg.gpio_rm.gpio_axi4l_map.set_auto_predict(0);
 			// Connect the Agent Analysis port with predictor
 			axi4l_agent_h.axi4l_agent_ap.connect(axi4l2reg_predictor.bus_in);
+		end
 	endfunction
 endclass

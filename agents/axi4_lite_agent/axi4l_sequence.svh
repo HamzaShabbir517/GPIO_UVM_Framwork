@@ -28,7 +28,7 @@ class axi4l_sequence extends uvm_sequence #(axi4l_sequence_item #(`data_width,`a
 			start_item(seq_item);
 		
 			// Randomize the Sequence item
-			assert(seq_item.randomize());
+			assert(seq_item.randomize() with {addr >= 32'h20000000 && addr <= 32'h20000014; });
 		
 			// Finish the Sequence Item handshaking 
 			finish_item(seq_item);

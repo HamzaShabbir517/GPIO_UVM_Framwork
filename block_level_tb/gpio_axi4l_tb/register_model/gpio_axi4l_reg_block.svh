@@ -70,7 +70,7 @@ class gpio_axi4l_reg_block extends uvm_reg_block;
 		gpio_axi4l_map.add_reg(gpio_interrupt_status_reg, 'h10, "RO");
 		gpio_axi4l_map.add_reg(gpio_interrupt_clear_reg, 'h14, "WO");
 		
-		add_hdl_path("hdl_top.dut", "RTL");
+		add_hdl_path("hdl_top.axi_dut", "RTL");
 		lock_model();
 		
 	endfunction

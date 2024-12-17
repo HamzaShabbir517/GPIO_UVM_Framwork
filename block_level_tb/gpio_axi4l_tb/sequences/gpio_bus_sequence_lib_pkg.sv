@@ -43,7 +43,7 @@ class gpio_bus_base_sequence extends uvm_sequence #(uvm_sequence_item);
 		
 		// Get the config object from data base
 		if(!uvm_config_db #(gpio_axi4l_env_config)::get(m_sequencer,"*","gpio_axi4l_env_config",env_cfg))
-		`uvm_error("GPIO Bus Base Sequence", "unable to get gpio_axi4l_env_config");
+			`uvm_error("GPIO Bus Base Sequence", "unable to get gpio_axi4l_env_config");
 		
 		// Get the RAL handle from config and pass it to base class
 		gpio_ral_model = env_cfg.gpio_rm;
@@ -175,14 +175,14 @@ class gpio_bus_mix_sequence extends gpio_bus_base_sequence;
 		end
 		// Third Sequence
 		// Use backdoor access
-		gpio_ral_model.gpio_input_reg.poke(status, 32'hFFFF_EEEE, .parent(this));
+		gpio_ral_model.gpio_interrupt_en_reg.poke(status, 32'hFFFF_EEEE, .parent(this));
 		// Get the Desire value
-		ref_data = gpio_ral_model.gpio_input_reg.get();
+		ref_data = gpio_ral_model.gpio_interrupt_en_reg.get();
 		// Read the actual value
-		gpio_ral_model.gpio_input_reg.peek(status, data, .parent(this));
+		gpio_ral_model.gpio_interrupt_en_reg.peek(status, data, .parent(this));
 		// Compare them
 		if(ref_data[31:0] != data[31:0]) begin
-			`uvm_error("GPIO Bus MIX SEQ:", $sformatf("poke/peek: Read error for %s: Expected: %0h Actual: %0h", gpio_ral_model.gpio_input_reg.get_name(), ref_data, data))
+			`uvm_error("GPIO Bus MIX SEQ:", $sformatf("poke/peek: Read error for %s: Expected: %0h Actual: %0h", gpio_ral_model.gpio_interrupt_en_reg.get_name(), ref_data, data))
 		end
 		
 		// Fourth Sequence

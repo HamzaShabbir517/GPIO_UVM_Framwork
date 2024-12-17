@@ -62,13 +62,13 @@ class gpio_base_test extends uvm_test;
 		uvm_config_db #(gpio_axi4l_env_config)::set(this,"*","gpio_axi4l_env_config",env_cfg);
 		
 		// Create Top Environment
-		gpio_axi4l_env_h = gpio_axi4l_environment::type_id::create("gpio_env_h",this);
+		gpio_axi4l_env_h = gpio_axi4l_environment::type_id::create("gpio_axi4l_env_h",this);
 	endfunction
 	
 	// AXI4 Lite Configuration Function
 	virtual function void configure_axi4l(axi4l_agent_config cfg);
 		// Agent is active
-		cfg.active = UVM_ACTIVE;
+		cfg.active = UVM_PASSIVE;
 		// Functional Coverage
 		cfg.has_functional_coverage = 1;
 		// Start & End Address
@@ -83,7 +83,7 @@ class gpio_base_test extends uvm_test;
 	// GPIO Configuration Function
 	virtual function void configure_gpio(gpio_agent_config cfg);
 		// Agent is active
-		cfg.active = UVM_ACTIVE;
+		cfg.active = UVM_PASSIVE;
 		// Get the virtual interface from config db
 		if(!uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::get(this,"","gpio_vif",cfg.gpio_if))
 			`uvm_fatal("Base Test",$sformatf("GPIO Virtual Interface Not Found"));
