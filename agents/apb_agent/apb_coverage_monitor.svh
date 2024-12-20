@@ -4,38 +4,36 @@
 // Declaration of Coverage Monitor Class
 class apb_coverage_monitor extends uvm_subscriber #(apb_sequence_item #(`PADDR_SIZE,`PDATA_SIZE));
 	
+	// Register is with factory
+	`uvm_component_utils(apb_coverage_monitor)
+	
 	// Declaration of Covergroups
 	covergroup apb_cov;
 		// Declaration of Read Write Coverpoint
-		Write: coverpoint trans.write {
+		Read_Write: coverpoint trans.write {
 			bins write = {1};
-		}
-		
-		Read: coverpoint trans.write {
 			bins read = {0};
 		}
 	
 		// Declaration of Address Coverpoint
-		Address: coverpoint trans.addr {
+		Address: coverpoint trans.addr[7:0] {
 			bins addr_range[] = {[0:255]};
 		}
 		
-		cross Write, Address;
-		cross Read,  Address;
+		cross Read_Write, Address;
 		
 		Write_strb: coverpoint trans.wstrb {
 			bins full_strobes[] = {4'b0001, 4'b0011, 4'b1111};
 		}
 		
-		cross Write, Write_strb;
+		cross Read_Write, Write_strb;
 		
 		Response: coverpoint trans.error {
 			bins ok = {1'b0};
 			bins err = {1'b1};
 		}
 		
-		cross Write, Response;
-		cross Read,  Response;
+		cross Read_Write, Response;
 	endgroup
 	
 	// Declaration of seq Item

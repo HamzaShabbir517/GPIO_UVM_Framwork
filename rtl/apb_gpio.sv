@@ -7,26 +7,26 @@
  * ------------------------------------------------------------------
  * 0x0      mode register       0=push-pull
  *                              1=open-drain
- * 0x1      direction register  0=input
+ * 0x4      direction register  0=input
  *                              1=output
- * 0x2      output register     mode-register=0? 0=drive pad low
+ * 0x8      output register     mode-register=0? 0=drive pad low
  *                                               1=drive pad high
  *                              mode-register=1? 0=drive pad low
  *                                               1=open-drain
- * 0x3      input register      returns data at pad
- * 0x4      trigger type        0=level
+ * 0xC      input register      returns data at pad
+ * 0x10     trigger type        0=level
  *                              1=edge
- * 0x5      trigger level/edge0 trigger-type=0? 0=no trigger when low
+ * 0x14     trigger level/edge0 trigger-type=0? 0=no trigger when low
  *                                              1=trigger when low
  *                              trigger-type=1? 0=no trigger on falling edge
  *                                              1=trigger on falling edge
- * 0x6      trigger level/edge1 trigger-type=0? 0=no trigger when high
+ * 0x18     trigger level/edge1 trigger-type=0? 0=no trigger when high
  *                                              1=trigger when high
  *                              trigger-type=1? 0=no trigger on rising edge
  *                                              1=trigger on rising edge
- * 0x7      trigger status      0=no trigger detected/irq pending
+ * 0x1C     trigger status      0=no trigger detected/irq pending
                                 1=trigger detected/irq pending
- * 0x8      irq enable          0=disable irq generation
+ * 0x20     irq enable          0=disable irq generation
  *                              1=enable irq generation
  */
 
@@ -59,14 +59,14 @@ module apb_gpio #(
 
 
   localparam MODE      = 0,
-             DIRECTION = 1,
-             OUTPUT    = 2,
-             INPUT     = 3,
-             TR_TYPE   = 4,
-             TR_LVL0   = 5,
-             TR_LVL1   = 6,
-             TR_STAT   = 7,
-             IRQ_ENA   = 8;
+             DIRECTION = 4,
+             OUTPUT    = 8,
+             INPUT     = 12,
+             TR_TYPE   = 16,
+             TR_LVL0   = 20,
+             TR_LVL1   = 24,
+             TR_STAT   = 28,
+             IRQ_ENA   = 32;
 
   //number of synchronisation flipflop stages on GPIO inputs
   localparam INPUT_STAGES = 2;

@@ -24,6 +24,9 @@ package apb_agent_pkg;
 	`include "apb_monitor.svh"
 	typedef uvm_sequencer #(apb_sequence_item #(`PADDR_SIZE,`PDATA_SIZE),apb_sequence_item #(`PADDR_SIZE,`PDATA_SIZE)) apb_sequencer;
 	
+	// Include Coverage
+	`include "apb_coverage_monitor.svh"
+	
 	// Include Agent
 	`include "apb_agent.svh"
 	

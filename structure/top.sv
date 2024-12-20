@@ -17,7 +17,7 @@ module top;
 	
 	// Declaration of interfaces
 	axi4l_interface #(`addr_width,`data_width) axi4l_if (.clk(clk), .rst(rst));
-	apb_interface #(`PADDR_SIZE, `PDATA_SIZE) apb_if (.clk(clk), .rst(rst));
+	apb_interface #(`PADDR_SIZE, `PDATA_SIZE) apb_if (.clk(clk), .rst(~rst));
 	gpio_interface #(`NUM_PINS) gpio_if (.clk(clk), .rst(rst));
 	
 	// Declaration of AXI4 Lite Interface Design

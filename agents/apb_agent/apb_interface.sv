@@ -22,21 +22,21 @@ interface apb_interface #(int PADDR_SIZE = 32, int PDATA_SIZE = 32) (input bit c
 	
 	// Assert that PENABLE is high only after PSEL is asserted
 	property data_phase;
-		@(posedge clk) (!rst) || (PSEL |=> PENABLE);
+		@(posedge clk) (!rst) |-> (PSEL ##1 PENABLE);
 	endproperty
 	
 	assert property (data_phase) else $error("Data phase violated: PENABLE must be asserted after PSEL.");
 
 	// Assert that PWRITE remains stable during a transaction
 	property stable_pwrite;
-		@(posedge clk) (!rst) || (PSEL && PENABLE |-> $stable(PWRITE));
+		 @(posedge clk) disable iff (!rst) PSEL |-> $stable(PWRITE);
 	endproperty
 	
 	assert property (stable_pwrite) else $error("PWRITE changes during the transaction.");
 
 	// Assert that PREADY and PENABLE are asserted only during an active transaction
 	property transaction_ack;
-  		@(posedge clk) (!rst) || ((PREADY && PENABLE) |-> PSEL);
+  		@(posedge clk) disable iff (!rst) (PREADY || PENABLE) |-> PSEL;
 	endproperty
 	
 	assert property (transaction_ack) else $error("PREADY and PENABLE asserted without an active transaction.");
