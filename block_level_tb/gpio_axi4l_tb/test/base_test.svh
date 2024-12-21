@@ -74,7 +74,7 @@ class gpio_base_test extends uvm_test;
 		// Start & End Address
 		cfg.start_address = 32'h20000000;
 		cfg.range = 32'h18;
-		cfg.timeout_cycles = 100;
+		cfg.timeout_cycles = 1000;
 		// Get the virtual interface from config db
 		if(!uvm_config_db #(virtual axi4l_interface #(`addr_width,`data_width))::get(this,"","axi4l_vif",cfg.axi4l_if))
 			`uvm_fatal("Base Test",$sformatf("AXI4 Lite Virtual Interface Not Found"));

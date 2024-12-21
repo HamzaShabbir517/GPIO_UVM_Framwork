@@ -1,16 +1,10 @@
-// Import UVM Packages
-import uvm_pkg::*;
+module hdl_top;
 
-// Import GPIO Packages
-import gpio_pkg::*;
-
-// Include defines
-`include "axi4l_defines.svh"
-`include "apb_defines.svh"
-`include "gpio_defines.svh"
-
-module top;
-
+	// Include defines
+	`include "axi4l_defines.svh"
+	`include "apb_defines.svh"
+	`include "gpio_defines.svh"
+	
 	// Declaration of clock signal
 	bit clk;
 	bit rst;
@@ -84,18 +78,18 @@ module top;
 	
 	// Initial Block
 	initial begin
+	
+		import uvm_pkg::uvm_config_db;
 		
 		// Set the AXI4 Lite Virtual interface into Config DB
-		uvm_config_db #(virtual axi4l_interface #(`addr_width,`data_width))::set(null,"*", "axi4l_vif", axi4l_if);
+		uvm_config_db #(virtual axi4l_interface #(`addr_width,`data_width))::set(null,"uvm_test_top", "axi4l_vif", axi4l_if);
 		
 		// Set the APB Virtual interface into Config DB
-		uvm_config_db #(virtual apb_interface #(`PADDR_SIZE,`PDATA_SIZE))::set(null,"*", "apb_vif", apb_if);
+		uvm_config_db #(virtual apb_interface #(`PADDR_SIZE,`PDATA_SIZE))::set(null,"uvm_test_top", "apb_vif", apb_if);
 		
 		// Set the GPIO interface into Config DB
-		uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::set(null,"*","gpio_vif",gpio_if);
+		uvm_config_db #(virtual gpio_interface #(`NUM_PINS))::set(null,"uvm_test_top","gpio_vif",gpio_if);
 		
-		// Run the UVM Test
-		run_test();  
 	end
 
 endmodule
