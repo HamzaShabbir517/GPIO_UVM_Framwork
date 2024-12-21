@@ -28,6 +28,7 @@ class gpio_port_test extends soc_base_test;
 			
 		env_cfg.axi4l_env_cfg.has_gpio_agent = 1;
 		env_cfg.apb_env_cfg.has_gpio_agent = 1;
+		env_cfg.apb_env_cfg.apb_agent_config_h.active = UVM_PASSIVE;
 		
 		// Set the Environment config back to data base
 		uvm_config_db #(soc_env_config)::set(this,"*","soc_env_config",env_cfg);
@@ -42,11 +43,9 @@ class gpio_port_test extends soc_base_test;
 		// Raise the objection
 		phase.raise_objection(this);
 		
-		fork
-			// Start the Sequence
-			gpio_seq.start(soc_env_h.gpio_axi4l_env_h.gpio_agent_h.gpio_sqr_h);
-			gpio_seq.start(soc_env_h.gpio_apb_env_h.gpio_agent_h.gpio_sqr_h);
-		join
+		// Start the Sequence
+		gpio_seq.start(soc_env_h.gpio_axi4l_env_h.gpio_agent_h.gpio_sqr_h);
+		
 		
 		// Drop the objection
 		phase.drop_objection(this);

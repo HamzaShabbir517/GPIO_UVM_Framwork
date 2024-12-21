@@ -11,9 +11,7 @@ package soc_reg_pkg;
 	import gpio_apb_reg_pkg::*;
 	
 	// Inlcude GPIO AXI4 Lite Register Files
-	`include "gpio_regs.svh"
-	`include "gpio_axi4l_reg_block.svh"
-	
+	import gpio_axi4l_reg_pkg::*;
 	
 	// Declaration of SoC Reg Block
 	class soc_reg_block extends uvm_reg_block;

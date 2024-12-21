@@ -50,7 +50,7 @@ class soc_base_test extends uvm_test;
 		
 		// Sub Environment 1 Configuration
 		axi4l_env_cfg = gpio_axi4l_env_config::type_id::create("axi4l_env_cfg");
-		// axi4l_env_cfg.gpio_rm = soc_register_model.gpio_axi4l_rb;
+		axi4l_env_cfg.gpio_rm = soc_register_model.gpio_axi4l_rb;
 		
 			// AXI4 Lite Agent in Sub Environment
 			axi4l_cfg = axi4l_agent_config::type_id::create("axi4l_cfg");

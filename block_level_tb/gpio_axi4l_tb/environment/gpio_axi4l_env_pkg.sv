@@ -11,9 +11,8 @@ package gpio_axi4l_env_pkg;
 	import axi4l_agent_pkg::*;
 	import gpio_agent_pkg::*;
 	
-	// Include RAL model
-	`include "gpio_regs.svh"
-	`include "gpio_axi4l_reg_block.svh"
+	// Import Register Package
+	import gpio_axi4l_reg_pkg::*;
 	
 	// Include GPIO Environment Config
 	`include "gpio_axi4l_env_config.svh"

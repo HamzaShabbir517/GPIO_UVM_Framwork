@@ -32,6 +32,7 @@ build:
 	vlog +incdir+$(UVM_HOME)/src $(AGENTS)/apb_agent/apb_interface.sv -suppress 2263
 	vlog +incdir+$(UVM_HOME)/src $(AGENTS)/axi4_lite_agent/axi4l_interface.sv -suppress 2263
 	vlog +incdir+$(UVM_HOME)/src +incdir+$(BLOCK_TB)/gpio_apb_tb/register_model $(BLOCK_TB)/gpio_apb_tb/register_model/gpio_apb_reg_pkg.sv
+	vlog +incdir+$(UVM_HOME)/src +incdir+$(BLOCK_TB)/gpio_axi4l_tb/register_model $(BLOCK_TB)/gpio_axi4l_tb/register_model/gpio_axi4l_reg_pkg.sv
 	vlog +incdir+$(UVM_HOME)/src +incdir+$(BLOCK_TB)/gpio_axi4l_tb/register_model +incdir+$(BLOCK_TB)/gpio_apb_tb/register_model +incdir+../register_model ../register_model/soc_reg_pkg.sv
 	vlog +incdir+$(UVM_HOME)/src +incdir+$(BLOCK_TB)/gpio_axi4l_tb/environment +incdir+$(BLOCK_TB)/gpio_axi4l_tb/register_model +incdir+$(INCLUDES) $(BLOCK_TB)/gpio_axi4l_tb/environment/gpio_axi4l_env_pkg.sv -suppress 2263
 	vlog +incdir+$(UVM_HOME)/src +incdir+$(BLOCK_TB)/gpio_apb_tb/environment +incdir+$(INCLUDES) $(BLOCK_TB)/gpio_apb_tb/environment/gpio_apb_env_pkg.sv -suppress 2263
