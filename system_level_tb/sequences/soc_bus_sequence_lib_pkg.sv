@@ -13,6 +13,9 @@ package soc_bus_sequence_lib_pkg;
 	// Import Reg Package
 	import soc_reg_pkg::*;
 	
+	// Import Register Package
+	import gpio_apb_reg_pkg::*;
+	
 // Declaration of SoC Bus Base Sequence
 class soc_bus_base_sequence extends uvm_sequence #(uvm_sequence_item);
 	

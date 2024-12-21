@@ -1,5 +1,5 @@
 // Declaration of SoC Package
-package spc_reg_pkg;
+package soc_reg_pkg;
 
 	// Import UVM Package
 	import uvm_pkg::*;
@@ -38,11 +38,11 @@ package spc_reg_pkg;
 			
 			// Create the register model
 			gpio_axi4l_rb = gpio_axi4l_reg_block::type_id::create("gpio_axi4l_rb");
-			gpio_axi4l_rb.configure(this,null,"");
+			gpio_axi4l_rb.configure(this);
 			gpio_axi4l_rb.build();
 			
 			gpio_apb_rb = gpio_apb_reg_block::type_id::create("gpio_apb_rb");
-			gpio_apb_rb.configure(this,null,"");
+			gpio_apb_rb.configure(this);
 			gpio_apb_rb.build();
 			
 			// Create the map

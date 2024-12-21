@@ -1,7 +1,3 @@
-// Include Defines
-`include "axi4l_defines.svh"
-`include "apb_defines.svh"
-
 // Declaration of Environment Class
 class soc_environment extends uvm_env;
 	

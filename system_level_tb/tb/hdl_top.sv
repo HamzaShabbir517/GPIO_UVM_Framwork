@@ -9,6 +9,9 @@ module hdl_top;
 	bit clk;
 	bit rst;
 	
+	wire [`NUM_PINS-1:0] gpio_o_w, gpio_oe_w;
+	wire gpio_intr_w;
+	
 	// Declaration of interfaces
 	axi4l_interface #(`addr_width,`data_width) axi4l_if (.clk(clk), .rst(rst));
 	apb_interface #(`PADDR_SIZE, `PDATA_SIZE) apb_if (.clk(clk), .rst(~rst));
@@ -38,9 +41,9 @@ module hdl_top;
     			.rready(axi4l_if.RREADY),
     			// GPIO Interface
     			.gpio_in(gpio_if.gpio_in),              
-    			.gpio_out(gpio_if.gpio_out),             
-    			.gpio_output_enable(gpio_if.gpio_oe),   
-    			.irq(gpio_if.intr)              
+    			.gpio_out(gpio_o_w),             
+    			.gpio_output_enable(gpio_oe_w),   
+    			.irq(gpio_intr_w)              
 		      );
 		      
 	// Declaration of APB Interface Design 
@@ -59,10 +62,16 @@ module hdl_top;
     			.PSLVERR(apb_if.PSLVERR),
     			// GPIO Interface
     			.gpio_i(gpio_if.gpio_in),              
-    			.gpio_o(gpio_if.gpio_out),             
-    			.gpio_oe(gpio_if.gpio_oe),   
-    			.irq_o(gpio_if.intr)              
+    			.gpio_o(gpio_o_w),             
+    			.gpio_oe(gpio_oe_w),   
+    			.irq_o(gpio_intr_w)              
 		      ); 
+		      
+	// Assignments
+	assign gpio_if.gpio_out = gpio_o_w;
+	assign gpio_if.gpio_oe = gpio_oe_w;
+	assign gpio_if.intr = gpio_intr_w;
+	
 	// Reset and Clock Generation 
 	initial begin
 		clk = 0;

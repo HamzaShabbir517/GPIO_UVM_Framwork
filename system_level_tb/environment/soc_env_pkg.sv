@@ -12,7 +12,7 @@ package soc_env_pkg;
 	import gpio_apb_env_pkg::*;
 	
 	// Import Register Package
-	import spc_reg_pkg::*;
+	import soc_reg_pkg::*;
 	
 	// Includes
 	`include "soc_env_config.svh"
